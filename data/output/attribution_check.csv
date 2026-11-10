@@ -1,0 +1,6 @@
+model,orders,total_credit,min_credit_per_order,max_credit_per_order
+First click,129431,129431.0,1.0,1.0
+Last click,129431,129431.0,1.0,1.0
+Linear,129431,129431.0,1.0,1.0
+Position 40/20/40,129431,129431.0,1.0,1.0
+Time decay,129431,129431.0,1.0,1.0

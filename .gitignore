@@ -1,0 +1,23 @@
+.venv/
+.env
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.DS_Store
+
+# large generated files: rebuild with src/generate_sim.py, src/run_sql.py and the notebook
+data/clean/*.csv
+data/clean/sim_touchpoints.parquet
+data/output/attribution_rule_based.csv
+data/output/attribution_credits.csv
+data/output/order_value.csv
+data/output/_generate_log.txt
+
+# personal interview preparation (not part of the case study)
+prep/
+
+# Power BI local files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/editorSettings.json
+**/TMDLScripts/

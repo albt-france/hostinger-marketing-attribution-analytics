@@ -1,0 +1,55 @@
+channel,model,credit_share
+SEO,Last click,0.2301457919663759
+Direct,Last click,0.19950398281709947
+Affiliates - Coupon,Last click,0.16529270422078174
+PPC Brand,Last click,0.11936862111858829
+PPC Non-brand,Last click,0.10397818142485185
+Affiliates - Content,Last click,0.08443108683391151
+Email,Last click,0.058579474778067075
+Unattributed,Last click,0.019995209802906568
+Influencers,Last click,0.01870494703741762
+SEO,First click,0.2628582024399101
+Direct,First click,0.10708408341123841
+Affiliates - Coupon,First click,0.04798695830210691
+PPC Brand,First click,0.10359187520763959
+PPC Non-brand,First click,0.27124877347776033
+Affiliates - Content,First click,0.12541817648013226
+Email,First click,0.00010043961647518755
+Unattributed,First click,0.019995209802906568
+Influencers,First click,0.061716281261830624
+SEO,Linear,0.2503786536750046
+Direct,Linear,0.17651859733316264
+Affiliates - Coupon,Linear,0.09203254464320205
+PPC Brand,Linear,0.12003478779463668
+PPC Non-brand,Linear,0.16465181300865953
+Affiliates - Content,Linear,0.1013417058767477
+Email,Linear,0.04116275779961451
+Unattributed,Linear,0.019995209802906568
+Influencers,Linear,0.03388393006606572
+SEO,Time decay,0.24939552920280297
+Direct,Time decay,0.18396185539743654
+Affiliates - Coupon,Time decay,0.09552422699789057
+PPC Brand,Time decay,0.12194890876740647
+PPC Non-brand,Time decay,0.15370098053424303
+Affiliates - Content,Time decay,0.09885412717392657
+Email,Time decay,0.04537711280155067
+Unattributed,Time decay,0.019995209802906568
+Influencers,Time decay,0.031242049321836635
+SEO,Position 40/20/40,0.24813694812937653
+Direct,Position 40/20/40,0.16302140393980835
+Affiliates - Coupon,Position 40/20/40,0.10062439961575409
+PPC Brand,Position 40/20/40,0.11498311841830783
+PPC Non-brand,Position 40/20/40,0.17792548410607453
+Affiliates - Content,Position 40/20/40,0.10343827985567601
+Email,Position 40/20/40,0.03428678858490882
+Unattributed,Position 40/20/40,0.019995209802906568
+Influencers,Position 40/20/40,0.03758836754718731
+SEO,Markov (data-driven),0.2901238340694484
+Direct,Markov (data-driven),0.18263501619583156
+Affiliates - Coupon,Markov (data-driven),0.08301945004017193
+PPC Brand,Markov (data-driven),0.10910905722335293
+PPC Non-brand,Markov (data-driven),0.1807721365768171
+Affiliates - Content,Markov (data-driven),0.08816949158299046
+Email,Markov (data-driven),0.022605221561716637
+Unattributed,Markov (data-driven),0.019995209802906568
+Influencers,Markov (data-driven),0.023570582946764413

@@ -1,0 +1,79 @@
+table Spend
+	lineageTag: ad2ab246-532e-567f-bb6b-566c107de35c
+
+	column date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 1d7abefd-1c44-5886-8091-89de6e11353b
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column channel
+		dataType: string
+		lineageTag: 3287d28e-0b17-5be6-aff8-4b47893b2165
+		summarizeBy: none
+		sourceColumn: channel
+
+	column sub_channel
+		dataType: string
+		lineageTag: e1e59f79-6b26-566c-b1d6-6d808410d6cf
+		summarizeBy: none
+		sourceColumn: sub_channel
+
+	column campaign_id
+		dataType: string
+		lineageTag: 51af96be-eaa3-5542-9743-a141f0d8f789
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+	column creator_id
+		dataType: string
+		lineageTag: 95ad31f3-d4c5-5dd4-9fde-7461a46dbe62
+		summarizeBy: none
+		sourceColumn: creator_id
+
+	column affiliate_id
+		dataType: string
+		lineageTag: 07b0de27-eb92-516d-acf4-f277fb0fbc72
+		summarizeBy: none
+		sourceColumn: affiliate_id
+
+	column country
+		dataType: string
+		lineageTag: 73934ad0-f835-54df-9ffb-c335118c4fd5
+		summarizeBy: none
+		sourceColumn: country
+
+	column spend_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: 07381940-6a9c-5b87-9a26-df457ce1d2ca
+		summarizeBy: none
+		sourceColumn: spend_eur
+
+	column impressions
+		dataType: int64
+		formatString: #,0
+		lineageTag: fb2dd931-08a9-5299-9950-793331a1f558
+		summarizeBy: none
+		sourceColumn: impressions
+
+	column clicks
+		dataType: int64
+		formatString: #,0
+		lineageTag: cb644cd7-dfec-51ea-b542-850adc85f735
+		summarizeBy: none
+		sourceColumn: clicks
+
+	partition Spend = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "clean\sim_spend.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"date", "channel", "sub_channel", "campaign_id", "creator_id", "affiliate_id", "country", "spend_eur", "impressions", "clicks"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"date", type date}, {"channel", type text}, {"sub_channel", type text}, {"campaign_id", type text}, {"creator_id", type text}, {"affiliate_id", type text}, {"country", type text}, {"spend_eur", type number}, {"impressions", Int64.Type}, {"clicks", Int64.Type}}, "en-US")
+				in
+					Typed

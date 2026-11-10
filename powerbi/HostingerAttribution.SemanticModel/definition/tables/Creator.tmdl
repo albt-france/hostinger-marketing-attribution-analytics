@@ -1,0 +1,140 @@
+table Creator
+	lineageTag: 84b6522d-249d-5bfe-96fd-d551d79707b9
+
+	column creator_id
+		dataType: string
+		lineageTag: 4affca4a-4395-5e5e-8e0f-df186df3a1c8
+		summarizeBy: none
+		sourceColumn: creator_id
+
+	column creator_name
+		dataType: string
+		lineageTag: d3a98015-8f8b-5b10-bce3-56912e4a47bf
+		summarizeBy: none
+		sourceColumn: creator_name
+
+	column platform
+		dataType: string
+		lineageTag: beccce0c-64ae-5b65-ae4a-c8fa4d41ce5d
+		summarizeBy: none
+		sourceColumn: platform
+
+	column niche
+		dataType: string
+		lineageTag: bc4716fd-17e4-5e3b-866b-67e6677d02ab
+		summarizeBy: none
+		sourceColumn: niche
+
+	column main_country
+		dataType: string
+		lineageTag: 8a099df8-761d-5b25-b4f6-5552143c6120
+		summarizeBy: none
+		sourceColumn: main_country
+
+	column audience_size
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6355e9a0-3298-529a-87b1-1b551b39e149
+		summarizeBy: none
+		sourceColumn: audience_size
+
+	column fee_model
+		dataType: string
+		lineageTag: 89658d3d-b57f-5cb6-9394-8965eefe9ed6
+		summarizeBy: none
+		sourceColumn: fee_model
+
+	column videos
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2034c071-f035-578a-9382-94076d103368
+		summarizeBy: none
+		sourceColumn: videos
+
+	column cost_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: 13ff735c-dbc0-5fda-b162-fe433d7c3308
+		summarizeBy: none
+		sourceColumn: cost_eur
+
+	column claimed_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 55546f67-f036-51d7-8dcb-5f4e300ee547
+		summarizeBy: none
+		sourceColumn: claimed_orders
+
+	column link_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: f17c96d9-95cd-5c22-8f22-e314dbb9fff0
+		summarizeBy: none
+		sourceColumn: link_orders
+
+	column code_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1054c875-b5d5-5faf-a3d4-31083cdf4526
+		summarizeBy: none
+		sourceColumn: code_orders
+
+	column leaked_code_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: b5dec2f4-77bb-5549-a187-05690430a4cd
+		summarizeBy: none
+		sourceColumn: leaked_code_orders
+
+	column leaked_share_of_code
+		dataType: double
+		formatString: 0%
+		lineageTag: 4871b926-e8b1-5d33-8ad3-1c8292004295
+		summarizeBy: none
+		sourceColumn: leaked_share_of_code
+
+	column refund_rate_30d
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 7989c454-2438-54e2-91a0-abda3d1cd6bb
+		summarizeBy: none
+		sourceColumn: refund_rate_30d
+
+	column genuine_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 648bbb27-3902-5dfd-8967-959eb7974172
+		summarizeBy: none
+		sourceColumn: genuine_orders
+
+	column cost_per_genuine_order
+		dataType: double
+		formatString: €#,0
+		lineageTag: 4a98963e-7355-5043-a749-aa914fb5ea69
+		summarizeBy: none
+		sourceColumn: cost_per_genuine_order
+
+	column value_12m_genuine
+		dataType: double
+		formatString: €#,0
+		lineageTag: 3d94c6a0-6ffd-59ec-a81f-9d86b1e105c1
+		summarizeBy: none
+		sourceColumn: value_12m_genuine
+
+	column roi_12m
+		dataType: double
+		formatString: 0%
+		lineageTag: ae45142c-ad8a-55dc-a173-9c9260988d46
+		summarizeBy: none
+		sourceColumn: roi_12m
+
+	partition Creator = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\creator_scorecard.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"creator_id", "creator_name", "platform", "niche", "main_country", "audience_size", "fee_model", "videos", "cost_eur", "claimed_orders", "link_orders", "code_orders", "leaked_code_orders", "leaked_share_of_code", "refund_rate_30d", "genuine_orders", "cost_per_genuine_order", "value_12m_genuine", "roi_12m"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"creator_id", type text}, {"creator_name", type text}, {"platform", type text}, {"niche", type text}, {"main_country", type text}, {"audience_size", Int64.Type}, {"fee_model", type text}, {"videos", Int64.Type}, {"cost_eur", type number}, {"claimed_orders", Int64.Type}, {"link_orders", Int64.Type}, {"code_orders", Int64.Type}, {"leaked_code_orders", Int64.Type}, {"leaked_share_of_code", type number}, {"refund_rate_30d", type number}, {"genuine_orders", Int64.Type}, {"cost_per_genuine_order", type number}, {"value_12m_genuine", type number}, {"roi_12m", type number}}, "en-US")
+				in
+					Typed

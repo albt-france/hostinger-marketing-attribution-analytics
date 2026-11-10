@@ -1,0 +1,87 @@
+table Affiliate
+	lineageTag: 6eb0b162-68e1-58f6-acb3-0c75134c24ed
+
+	column affiliate_id
+		dataType: string
+		lineageTag: bc18b8a2-26c3-5187-931b-34b4e9e5088d
+		summarizeBy: none
+		sourceColumn: affiliate_id
+
+	column type
+		dataType: string
+		lineageTag: aca742db-e4d9-508f-b72a-5c37b5bec192
+		summarizeBy: none
+		sourceColumn: type
+
+	column main_country
+		dataType: string
+		lineageTag: 6f1e9baa-f290-5e2e-a5f4-d8c9c2681d38
+		summarizeBy: none
+		sourceColumn: main_country
+
+	column commission_rate
+		dataType: double
+		formatString: 0%
+		lineageTag: 57e0e703-42c1-52a1-9c04-249000fa5179
+		summarizeBy: none
+		sourceColumn: commission_rate
+
+	column last_click_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: b971fa08-0e7c-5651-967f-2adf309b3727
+		summarizeBy: none
+		sourceColumn: last_click_orders
+
+	column commission_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: ac2a6098-8505-52d5-8fb6-406bee37f7a7
+		summarizeBy: none
+		sourceColumn: commission_eur
+
+	column commission_per_order
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: 37f92f46-a7ff-5d2c-9a86-22ddbe212329
+		summarizeBy: none
+		sourceColumn: commission_per_order
+
+	column refund_rate_30d
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 512acf4f-a26f-5c98-a7c1-1a9b12340b39
+		summarizeBy: none
+		sourceColumn: refund_rate_30d
+
+	column share_cart_already_started
+		dataType: double
+		formatString: 0%
+		lineageTag: 18d6d8bb-83c0-5ce3-bcc2-055afcd63fbf
+		summarizeBy: none
+		sourceColumn: share_cart_already_started
+
+	column share_with_earlier_channel
+		dataType: double
+		formatString: 0%
+		lineageTag: fb9b2ad4-c588-58ea-8dfb-f3ee16f4dcf3
+		summarizeBy: none
+		sourceColumn: share_with_earlier_channel
+
+	column expected_value_12m_per_order
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: e842df67-b82f-5bd3-a173-ef7e082587b4
+		summarizeBy: none
+		sourceColumn: expected_value_12m_per_order
+
+	partition Affiliate = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\affiliate_scorecard.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"affiliate_id", "type", "main_country", "commission_rate", "last_click_orders", "commission_eur", "commission_per_order", "refund_rate_30d", "share_cart_already_started", "share_with_earlier_channel", "expected_value_12m_per_order"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"affiliate_id", type text}, {"type", type text}, {"main_country", type text}, {"commission_rate", type number}, {"last_click_orders", Int64.Type}, {"commission_eur", type number}, {"commission_per_order", type number}, {"refund_rate_30d", type number}, {"share_cart_already_started", type number}, {"share_with_earlier_channel", type number}, {"expected_value_12m_per_order", type number}}, "en-US")
+				in
+					Typed

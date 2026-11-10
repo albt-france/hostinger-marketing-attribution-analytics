@@ -1,0 +1,204 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "topPaths",
+  "position": {
+    "x": 1132,
+    "y": 156,
+    "z": 5000,
+    "height": 440,
+    "width": 756,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Top Paths"
+                    }
+                  },
+                  "Property": "rank"
+                }
+              },
+              "queryRef": "Top Paths.rank",
+              "nativeQueryRef": "rank",
+              "displayName": "#"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Top Paths"
+                    }
+                  },
+                  "Property": "path"
+                }
+              },
+              "queryRef": "Top Paths.path",
+              "nativeQueryRef": "path",
+              "displayName": "Path"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Top Paths"
+                    }
+                  },
+                  "Property": "orders"
+                }
+              },
+              "queryRef": "Top Paths.orders",
+              "nativeQueryRef": "orders",
+              "displayName": "Orders"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Top Paths"
+                    }
+                  },
+                  "Property": "share_of_orders"
+                }
+              },
+              "queryRef": "Top Paths.share_of_orders",
+              "nativeQueryRef": "share_of_orders",
+              "displayName": "Share"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Top Paths"
+                    }
+                  },
+                  "Property": "avg_days_to_convert"
+                }
+              },
+              "queryRef": "Top Paths.avg_days_to_convert",
+              "nativeQueryRef": "avg_days_to_convert",
+              "displayName": "Days to buy"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Top Paths"
+                  }
+                },
+                "Property": "rank"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11.0D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Most frequent conversion paths (30-day window, repeats collapsed)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

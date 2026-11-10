@@ -1,0 +1,55 @@
+relationship rel_01
+	fromColumn: Orders.order_date
+	toColumn: Date.Date
+
+relationship rel_02
+	fromColumn: Orders.country
+	toColumn: Country.country
+
+relationship rel_03
+	fromColumn: 'Attribution Credits'.order_id
+	toColumn: Orders.order_id
+
+relationship rel_04
+	fromColumn: 'Attribution Credits'.channel
+	toColumn: Channel.channel
+
+relationship rel_05
+	fromColumn: 'Attribution Credits'.model
+	toColumn: 'Attribution Model'.model
+
+relationship rel_06
+	fromColumn: Spend.date
+	toColumn: Date.Date
+
+relationship rel_07
+	fromColumn: Spend.channel
+	toColumn: Channel.channel
+
+relationship rel_08
+	fromColumn: Spend.country
+	toColumn: Country.country
+
+relationship rel_09
+	fromColumn: Spend.creator_id
+	toColumn: Creator.creator_id
+
+relationship rel_10
+	fromColumn: Spend.affiliate_id
+	toColumn: Affiliate.affiliate_id
+
+relationship rel_11
+	fromColumn: 'Code Usage'.creator_id
+	toColumn: Creator.creator_id
+
+relationship rel_12
+	fromColumn: 'Value Curve'.channel
+	toColumn: Channel.channel
+
+relationship rel_13
+	fromColumn: 'Channel Quality'.channel
+	toColumn: Channel.channel
+
+relationship rel_14
+	fromColumn: 'Incremental Cost'.channel
+	toColumn: Channel.channel

@@ -1,0 +1,20 @@
+table 'Attribution Model'
+	lineageTag: 219c2bda-35b5-505b-a23b-2b5091beb949
+
+	column model
+		dataType: string
+		lineageTag: 5f7ba81c-3db0-55ff-9946-71872d5526c2
+		summarizeBy: none
+		sourceColumn: model
+		sortByColumn: model_sort
+
+	column model_sort
+		dataType: int64
+		isHidden
+		lineageTag: d7fbc0ca-1c08-5a8c-abd0-688751565141
+		summarizeBy: none
+		sourceColumn: model_sort
+
+	partition 'Attribution Model' = m
+		mode: import
+		source = #table(type table [model = text, model_sort = Int64.Type], {{"Last click", 1}, {"First click", 2}, {"Linear", 3}, {"Time decay", 4}, {"Position 40/20/40", 5}, {"Markov (data-driven)", 6}})

@@ -1,0 +1,124 @@
+table 'Channel Quality'
+	lineageTag: dd9dcb8d-47dd-5241-9f29-562239266668
+
+	column channel
+		dataType: string
+		lineageTag: 7a4b2288-29e8-5e1a-9faa-d65ae496ee0f
+		summarizeBy: none
+		sourceColumn: channel
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8748d919-5151-535d-969e-eb51813a893b
+		summarizeBy: none
+		sourceColumn: orders
+
+	column refund_rate_30d
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 4622c904-25ac-507c-8ec5-4ed0d9f90760
+		summarizeBy: none
+		sourceColumn: refund_rate_30d
+
+	column share_plan_1m
+		dataType: double
+		formatString: 0%
+		lineageTag: 4d1db9cc-352d-5b63-a6b3-46baa7352eeb
+		summarizeBy: none
+		sourceColumn: share_plan_1m
+
+	column share_plan_12m
+		dataType: double
+		formatString: 0%
+		lineageTag: d4500890-22e5-5c57-8b87-f440468c8d8b
+		summarizeBy: none
+		sourceColumn: share_plan_12m
+
+	column share_plan_24m
+		dataType: double
+		formatString: 0%
+		lineageTag: 0ab2a296-a1f6-5dca-9051-e576c51ec994
+		summarizeBy: none
+		sourceColumn: share_plan_24m
+
+	column share_plan_48m
+		dataType: double
+		formatString: 0%
+		lineageTag: 1c169828-4621-5ea2-93bf-99c40620a1a7
+		summarizeBy: none
+		sourceColumn: share_plan_48m
+
+	column avg_plan_months
+		dataType: double
+		formatString: 0.0
+		lineageTag: 99c71b37-7415-5754-80a1-024be0d54958
+		summarizeBy: none
+		sourceColumn: avg_plan_months
+
+	column net_value_30d
+		dataType: double
+		formatString: €#,0
+		lineageTag: 471149be-d6cc-5da6-9d0e-0a4f6a8ef540
+		summarizeBy: none
+		sourceColumn: net_value_30d
+
+	column expected_value_12m
+		dataType: double
+		formatString: €#,0
+		lineageTag: e96ff810-5dff-537d-aac3-8573bb03d3ab
+		summarizeBy: none
+		sourceColumn: expected_value_12m
+
+	column renewal_rate
+		dataType: double
+		formatString: 0%
+		lineageTag: 7f43e532-79ce-523b-96a0-ec51a5e57002
+		summarizeBy: none
+		sourceColumn: renewal_rate
+
+	column ltv_24m
+		dataType: double
+		formatString: €#,0
+		lineageTag: 5f089add-d70b-52e1-9195-24f76e199294
+		summarizeBy: none
+		sourceColumn: ltv_24m
+
+	column orders_in_ltv_24m
+		dataType: int64
+		formatString: #,0
+		lineageTag: 929a282c-29af-5763-8892-619f2e350986
+		summarizeBy: none
+		sourceColumn: orders_in_ltv_24m
+
+	column spend_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: f6ec6c6f-5265-542c-ab75-bd7d1dc0f097
+		summarizeBy: none
+		sourceColumn: spend_eur
+
+	column cac_first_click
+		dataType: double
+		formatString: €#,0
+		lineageTag: 0ee607fc-fc9a-5ae9-a585-886ef911c5f3
+		summarizeBy: none
+		sourceColumn: cac_first_click
+
+	column payback_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 046c2d1a-0301-52e6-8b67-52188a92f282
+		summarizeBy: none
+		sourceColumn: payback_month
+
+	partition 'Channel Quality' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\channel_quality.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"channel", "orders", "refund_rate_30d", "share_plan_1m", "share_plan_12m", "share_plan_24m", "share_plan_48m", "avg_plan_months", "net_value_30d", "expected_value_12m", "renewal_rate", "ltv_24m", "orders_in_ltv_24m", "spend_eur", "cac_first_click", "payback_month"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"channel", type text}, {"orders", Int64.Type}, {"refund_rate_30d", type number}, {"share_plan_1m", type number}, {"share_plan_12m", type number}, {"share_plan_24m", type number}, {"share_plan_48m", type number}, {"avg_plan_months", type number}, {"net_value_30d", type number}, {"expected_value_12m", type number}, {"renewal_rate", type number}, {"ltv_24m", type number}, {"orders_in_ltv_24m", Int64.Type}, {"spend_eur", type number}, {"cac_first_click", type number}, {"payback_month", Int64.Type}}, "en-US")
+				in
+					Typed

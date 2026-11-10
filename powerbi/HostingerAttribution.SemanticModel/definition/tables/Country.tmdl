@@ -1,0 +1,24 @@
+table Country
+	lineageTag: 8ff21206-32ed-504a-bbf9-bd693414f5ba
+
+	column country
+		dataType: string
+		lineageTag: d13b6450-e0cd-5550-977a-2b277f4d4aa5
+		summarizeBy: none
+		sourceColumn: country
+
+	column country_name
+		dataType: string
+		lineageTag: f72398e4-dbfd-5642-9302-a4e17a6ec96a
+		summarizeBy: none
+		sourceColumn: country_name
+
+	column geo_test_group
+		dataType: string
+		lineageTag: c3d30214-0605-5a23-a7bc-d37da4c2b793
+		summarizeBy: none
+		sourceColumn: geo_test_group
+
+	partition Country = m
+		mode: import
+		source = #table(type table [country = text, country_name = text, geo_test_group = text], {{"US", "United States", "test"}, {"FR", "France", "control"}, {"ES", "Spain", "test"}, {"BR", "Brazil", "control"}, {"IN", "India", "control"}, {"ID", "Indonesia", "test"}})

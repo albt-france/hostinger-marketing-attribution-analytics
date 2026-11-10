@@ -1,0 +1,27 @@
+table 'Video Event Study'
+	lineageTag: de668d44-ebaa-55ae-b0f6-bc3d8853687d
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: a5cacdbd-fa7b-5ed1-86bf-36079a0b8967
+		summarizeBy: none
+		sourceColumn: day
+
+	column index
+		dataType: double
+		formatString: 0
+		lineageTag: 34048946-cb6e-5a51-9f7d-2f879d32b798
+		summarizeBy: none
+		sourceColumn: index
+
+	partition 'Video Event Study' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\video_event_study.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"day", "index"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"day", Int64.Type}, {"index", type number}}, "en-US")
+				in
+					Typed

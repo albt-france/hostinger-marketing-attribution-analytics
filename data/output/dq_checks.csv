@@ -1,0 +1,9 @@
+check_id,check_name,failing_rows,detail,action
+1,Duplicated tracking events,3531,2025-06-18,Removed in touchpoints_clean (same user + channel within 2 s)
+2,Orders with no touchpoint in the 30-day window,2588,2.0% of orders,"Kept as ""Unattributed"" so totals still match finance"
+3,Days without PPC Non-brand cost (always-on channel),1,2025-08-14,"Cost import failed: re-import, or use the invoice for that month"
+4,Spend rows without campaign id,60,PPC Non-brand,"Reported under the channel, excluded from campaign-level views"
+5,Months where tracked spend and invoice differ by more than 1%,1,see dq_spend_vs_invoice,Finance invoice is the source of truth for cost
+6,Duplicate order ids,0,,Must be 0
+7,Refunds after the 30-day guarantee or above the amount paid,0,,Must be 0
+8,Renewals or refunds without a matching order,0,,Must be 0

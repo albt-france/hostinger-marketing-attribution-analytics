@@ -1,0 +1,5 @@
+expression DataFolder = "C:\case-study-honstinger\data\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 76335671-1a70-5062-8780-e0e02a72f72f
+
+	annotation PBI_ResultType = Text
+

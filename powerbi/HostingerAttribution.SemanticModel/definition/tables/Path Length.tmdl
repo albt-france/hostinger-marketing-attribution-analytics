@@ -1,0 +1,33 @@
+table 'Path Length'
+	lineageTag: 8b5d623c-5286-5266-a8c1-4e7a11cad40a
+
+	column touchpoints
+		dataType: string
+		lineageTag: f2775a92-6e75-50f6-ae61-f0d8570a808d
+		summarizeBy: none
+		sourceColumn: touchpoints
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: ed2ee258-f693-56c9-934d-3a25195c9966
+		summarizeBy: none
+		sourceColumn: orders
+
+	column share_of_orders
+		dataType: double
+		formatString: 0%
+		lineageTag: 23ced4ab-1467-570e-88e8-77e373b4cca2
+		summarizeBy: none
+		sourceColumn: share_of_orders
+
+	partition 'Path Length' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\path_length_dist.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"touchpoints", "orders", "share_of_orders"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"touchpoints", type text}, {"orders", Int64.Type}, {"share_of_orders", type number}}, "en-US")
+				in
+					Typed

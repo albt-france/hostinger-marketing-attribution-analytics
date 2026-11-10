@@ -1,0 +1,55 @@
+table 'Top Paths'
+	lineageTag: c20b9a08-f9b1-5303-8532-7db50d3226f5
+
+	column path
+		dataType: string
+		lineageTag: 0c68496d-6fa5-5724-8f9d-75c297d38f04
+		summarizeBy: none
+		sourceColumn: path
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7d7d5b0e-5869-5738-add8-08421f5422df
+		summarizeBy: none
+		sourceColumn: orders
+
+	column share_of_orders
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 21b6b5c8-0b99-5334-8e06-e12bcfa35444
+		summarizeBy: none
+		sourceColumn: share_of_orders
+
+	column avg_touchpoints
+		dataType: double
+		formatString: 0.0
+		lineageTag: 54fd44db-ef3c-523c-9ee4-aa09b6447b4c
+		summarizeBy: none
+		sourceColumn: avg_touchpoints
+
+	column avg_days_to_convert
+		dataType: double
+		formatString: 0.0
+		lineageTag: 2328581a-3a5b-5752-90cd-d8c8270f5797
+		summarizeBy: none
+		sourceColumn: avg_days_to_convert
+
+	column rank
+		dataType: int64
+		formatString: 0
+		lineageTag: 898181a8-5abc-5068-818a-9726c8252f34
+		summarizeBy: none
+		sourceColumn: rank
+
+	partition 'Top Paths' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\top_paths.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"path", "orders", "share_of_orders", "avg_touchpoints", "avg_days_to_convert"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"path", type text}, {"orders", Int64.Type}, {"share_of_orders", type number}, {"avg_touchpoints", type number}, {"avg_days_to_convert", type number}}, "en-US"),
+					Ranked = Table.AddIndexColumn(Typed, "rank", 1, 1, Int64.Type)
+				in
+					Ranked

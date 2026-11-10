@@ -1,0 +1,26 @@
+table Channel
+	lineageTag: 901c23dc-bc12-545f-b87a-2990b4c1e944
+
+	column channel
+		dataType: string
+		lineageTag: dc8a87a8-d9aa-55d7-98bc-855be96b3927
+		summarizeBy: none
+		sourceColumn: channel
+		sortByColumn: channel_sort
+
+	column channel_sort
+		dataType: int64
+		isHidden
+		lineageTag: 63d1f451-9a9c-5034-a621-8cd5a986df62
+		summarizeBy: none
+		sourceColumn: channel_sort
+
+	column channel_group
+		dataType: string
+		lineageTag: 5e0ba3f4-1f9e-5328-b308-6bc9640b2706
+		summarizeBy: none
+		sourceColumn: channel_group
+
+	partition Channel = m
+		mode: import
+		source = #table(type table [channel = text, channel_sort = Int64.Type, channel_group = text], {{"PPC Brand", 1, "Paid search"}, {"PPC Non-brand", 2, "Paid search"}, {"SEO", 3, "Organic"}, {"Affiliates - Content", 4, "Partners"}, {"Affiliates - Coupon", 5, "Partners"}, {"Influencers", 6, "Partners"}, {"Email", 7, "Owned"}, {"Direct", 8, "Owned"}, {"Unattributed", 9, "Not tracked"}})

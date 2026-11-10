@@ -1,0 +1,39 @@
+table 'Incremental Cost'
+	lineageTag: 4465d281-8f45-51d3-8055-e7be1c78cda0
+
+	column channel
+		dataType: string
+		lineageTag: aa75ce4a-863f-56c9-9414-386756a7e4dc
+		summarizeBy: none
+		sourceColumn: channel
+
+	column cost_per_last_click_order
+		dataType: double
+		formatString: €#,0
+		lineageTag: 09d8bcc4-780f-5be4-9911-0fd5b0d0a518
+		summarizeBy: none
+		sourceColumn: cost_per_last_click_order
+
+	column cost_per_incremental_order
+		dataType: double
+		formatString: €#,0
+		lineageTag: 82ffa6dc-b6bd-5846-bd38-bf4abce44070
+		summarizeBy: none
+		sourceColumn: cost_per_incremental_order
+
+	column method
+		dataType: string
+		lineageTag: 121c983c-9b87-5d2e-b056-c8e2573de72c
+		summarizeBy: none
+		sourceColumn: method
+
+	partition 'Incremental Cost' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\incremental_cost.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"channel", "cost_per_last_click_order", "cost_per_incremental_order", "method"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"channel", type text}, {"cost_per_last_click_order", type number}, {"cost_per_incremental_order", type number}, {"method", type text}}, "en-US")
+				in
+					Typed

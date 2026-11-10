@@ -1,0 +1,33 @@
+table 'Days To Convert'
+	lineageTag: a55e08dd-7c97-5a6f-b9a0-4d6205c8cb46
+
+	column days_to_convert
+		dataType: string
+		lineageTag: 43a51483-09f3-5268-bb2c-4dc877f70fa7
+		summarizeBy: none
+		sourceColumn: days_to_convert
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: e1cfb191-634b-52f3-b82c-d93a5b4d9023
+		summarizeBy: none
+		sourceColumn: orders
+
+	column share_of_orders
+		dataType: double
+		formatString: 0%
+		lineageTag: c4fb9876-55e8-5029-9f58-6084d815f00d
+		summarizeBy: none
+		sourceColumn: share_of_orders
+
+	partition 'Days To Convert' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\days_to_convert_dist.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"days_to_convert", "orders", "share_of_orders"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"days_to_convert", type text}, {"orders", Int64.Type}, {"share_of_orders", type number}}, "en-US")
+				in
+					Typed

@@ -1,0 +1,34 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode"]
+
+ref table Orders
+ref table 'Attribution Credits'
+ref table Spend
+ref table Creator
+ref table Affiliate
+ref table 'Top Paths'
+ref table 'Path Length'
+ref table 'Days To Convert'
+ref table 'Value Curve'
+ref table 'Channel Quality'
+ref table 'Code Usage'
+ref table 'Geo Weekly'
+ref table 'Geo Result'
+ref table 'Video Event Study'
+ref table 'Incremental Cost'
+ref table Reallocation
+ref table Channel
+ref table 'Attribution Model'
+ref table Country
+ref table Date
+ref table _Measures

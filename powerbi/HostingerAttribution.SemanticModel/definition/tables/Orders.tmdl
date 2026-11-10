@@ -1,0 +1,149 @@
+table Orders
+	lineageTag: 51e65e3b-08a9-5363-ae87-229424836178
+
+	column order_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 11d9b057-d068-53c1-8520-552171d4fe76
+		summarizeBy: none
+		sourceColumn: order_id
+
+	column order_date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: d280d84b-bb63-5150-b55c-3d59afef44f9
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column cohort_month
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: ef6a8968-bd6c-5656-9e40-331b824e5128
+		summarizeBy: none
+		sourceColumn: cohort_month
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column country
+		dataType: string
+		lineageTag: 36446aa5-3090-5fb0-a9e1-a97db9815e69
+		summarizeBy: none
+		sourceColumn: country
+
+	column product
+		dataType: string
+		lineageTag: 2edc74bc-39f7-553e-acd3-d455ba84eed9
+		summarizeBy: none
+		sourceColumn: product
+
+	column plan_months
+		dataType: int64
+		formatString: 0
+		lineageTag: 62ec74c5-583a-507e-b416-d5ff2eaa5ba7
+		summarizeBy: none
+		sourceColumn: plan_months
+
+	column coupon_code
+		dataType: string
+		lineageTag: 6ccc3ae2-3097-5d73-beab-fddd6fd06b7d
+		summarizeBy: none
+		sourceColumn: coupon_code
+
+	column paid_amount_eur
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: 7158cce3-768d-5605-9ac7-6c3a112d04eb
+		summarizeBy: none
+		sourceColumn: paid_amount_eur
+
+	column refunded_eur
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: bc60ff80-4cdc-5cb9-bedd-cfabaf225418
+		summarizeBy: none
+		sourceColumn: refunded_eur
+
+	column is_refunded
+		dataType: boolean
+		lineageTag: c7d94d17-0807-52d6-973b-3dd5cb786ccd
+		summarizeBy: none
+		sourceColumn: is_refunded
+
+	column renewal_12m
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: d6c2d71a-6579-5ec4-9d79-5c49e330e3c1
+		summarizeBy: none
+		sourceColumn: renewal_12m
+
+	column has_renewal_decision
+		dataType: boolean
+		lineageTag: b3265f45-e39e-556c-ad41-26b194581ae0
+		summarizeBy: none
+		sourceColumn: has_renewal_decision
+
+	column renewed_first_time
+		dataType: boolean
+		lineageTag: f070a5a4-a9af-5f0f-8ef8-d2533c40971b
+		summarizeBy: none
+		sourceColumn: renewed_first_time
+
+	column first_click_channel
+		dataType: string
+		lineageTag: 9f6f2e1b-96cd-5a10-88f3-3cb120b99d8d
+		summarizeBy: none
+		sourceColumn: first_click_channel
+
+	column last_click_channel
+		dataType: string
+		lineageTag: 915383ad-8e6f-5f77-b9c5-bb4c4106b41f
+		summarizeBy: none
+		sourceColumn: last_click_channel
+
+	column mature_30d
+		dataType: boolean
+		lineageTag: c916a5e0-b1d3-5e6f-a0c6-dbc3e107e2fc
+		summarizeBy: none
+		sourceColumn: mature_30d
+
+	column mature_12m
+		dataType: boolean
+		lineageTag: e0ac74bc-979b-56f6-9e1a-f1f157680360
+		summarizeBy: none
+		sourceColumn: mature_12m
+
+	column net_value_30d
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: f398d37d-06a3-59dd-a90b-89bd86b86738
+		summarizeBy: none
+		sourceColumn: net_value_30d
+
+	column net_value_12m
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: 1f5d9f2e-e897-5b93-aabc-27b9dee0b116
+		summarizeBy: none
+		sourceColumn: net_value_12m
+
+	column expected_value_12m
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: 73b9cd65-7070-52ce-a3c4-d795c79f154a
+		summarizeBy: none
+		sourceColumn: expected_value_12m
+
+	partition Orders = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\order_value.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					WithDate = Table.AddColumn(Promoted, "order_date", each Date.FromText(Text.Start([order_ts], 10), [Format="yyyy-MM-dd"]), type date),
+					Selected = Table.SelectColumns(WithDate, {"order_id", "order_date", "cohort_month", "country", "product", "plan_months", "coupon_code", "paid_amount_eur", "refunded_eur", "is_refunded", "renewal_12m", "has_renewal_decision", "renewed_first_time", "first_click_channel", "last_click_channel", "mature_30d", "mature_12m", "net_value_30d", "net_value_12m", "expected_value_12m"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"order_id", Int64.Type}, {"order_date", type date}, {"cohort_month", type date}, {"country", type text}, {"product", type text}, {"plan_months", Int64.Type}, {"coupon_code", type text}, {"paid_amount_eur", type number}, {"refunded_eur", type number}, {"is_refunded", type logical}, {"renewal_12m", type number}, {"has_renewal_decision", type logical}, {"renewed_first_time", type logical}, {"first_click_channel", type text}, {"last_click_channel", type text}, {"mature_30d", type logical}, {"mature_12m", type logical}, {"net_value_30d", type number}, {"net_value_12m", type number}, {"expected_value_12m", type number}}, "en-US")
+				in
+					Typed

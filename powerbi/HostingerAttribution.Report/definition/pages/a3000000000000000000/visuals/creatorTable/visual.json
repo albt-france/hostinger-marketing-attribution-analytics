@@ -1,0 +1,424 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "creatorTable",
+  "position": {
+    "x": 32,
+    "y": 300,
+    "z": 8000,
+    "height": 454,
+    "width": 1039,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "creator_id"
+                }
+              },
+              "queryRef": "Creator.creator_id",
+              "nativeQueryRef": "creator_id",
+              "displayName": "Creator"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "platform"
+                }
+              },
+              "queryRef": "Creator.platform",
+              "nativeQueryRef": "platform",
+              "displayName": "Platform"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "fee_model"
+                }
+              },
+              "queryRef": "Creator.fee_model",
+              "nativeQueryRef": "fee_model",
+              "displayName": "Fee"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "videos"
+                }
+              },
+              "queryRef": "Creator.videos",
+              "nativeQueryRef": "videos",
+              "displayName": "Videos"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "cost_eur"
+                }
+              },
+              "queryRef": "Creator.cost_eur",
+              "nativeQueryRef": "cost_eur",
+              "displayName": "Cost"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "link_orders"
+                }
+              },
+              "queryRef": "Creator.link_orders",
+              "nativeQueryRef": "link_orders",
+              "displayName": "Link orders"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "code_orders"
+                }
+              },
+              "queryRef": "Creator.code_orders",
+              "nativeQueryRef": "code_orders",
+              "displayName": "Code orders"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "leaked_share_of_code"
+                }
+              },
+              "queryRef": "Creator.leaked_share_of_code",
+              "nativeQueryRef": "leaked_share_of_code",
+              "displayName": "Leaked"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "refund_rate_30d"
+                }
+              },
+              "queryRef": "Creator.refund_rate_30d",
+              "nativeQueryRef": "refund_rate_30d",
+              "displayName": "Refunds"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "cost_per_genuine_order"
+                }
+              },
+              "queryRef": "Creator.cost_per_genuine_order",
+              "nativeQueryRef": "cost_per_genuine_order",
+              "displayName": "Cost / genuine order"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Creator"
+                    }
+                  },
+                  "Property": "roi_12m"
+                }
+              },
+              "queryRef": "Creator.roi_12m",
+              "nativeQueryRef": "roi_12m",
+              "displayName": "ROI 12m"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Creator"
+                  }
+                },
+                "Property": "cost_eur"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11.0D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "FillRule": {
+                      "Input": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Creator"
+                            }
+                          },
+                          "Property": "leaked_share_of_code"
+                        }
+                      },
+                      "FillRule": {
+                        "linearGradient2": {
+                          "min": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#FCFCFB'"
+                              }
+                            }
+                          },
+                          "max": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#F4C7C6'"
+                              }
+                            }
+                          },
+                          "nullColoringStrategy": {
+                            "strategy": {
+                              "Literal": {
+                                "Value": "'asZero'"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Creator.leaked_share_of_code"
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "FillRule": {
+                      "Input": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Creator"
+                            }
+                          },
+                          "Property": "roi_12m"
+                        }
+                      },
+                      "FillRule": {
+                        "linearGradient3": {
+                          "min": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#F4C7C6'"
+                              }
+                            }
+                          },
+                          "max": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#B7D3F6'"
+                              }
+                            }
+                          },
+                          "nullColoringStrategy": {
+                            "strategy": {
+                              "Literal": {
+                                "Value": "'asZero'"
+                              }
+                            }
+                          },
+                          "mid": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#F0EFEC'"
+                              }
+                            },
+                            "value": {
+                              "Literal": {
+                                "Value": "0.0D"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Creator.roi_12m"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11.0D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Creator scorecard (red = leaked codes / negative 12-month ROI)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

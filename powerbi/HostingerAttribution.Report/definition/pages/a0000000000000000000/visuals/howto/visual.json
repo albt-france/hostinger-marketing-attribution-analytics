@@ -1,0 +1,257 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "howto",
+  "position": {
+    "x": 32,
+    "y": 844,
+    "z": 10000,
+    "height": 184,
+    "width": 1856,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Hostinger context  ",
+                    "textStyle": {
+                      "fontSize": "15pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "public facts used to calibrate the simulation, hostinger.com",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Customers  ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "5M+ in 150+ countries.     ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Plans  ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "paid upfront; Premium $1.99/mo for 48 months, renews at $10.99/mo; VPS and Cloud the same way.     ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Refunds  ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "30-day money-back guarantee.     ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Affiliates  ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "from 40% commission, 30-day cookie, none on 1-month plans or renewals.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "",
+                    "textStyle": {
+                      "fontSize": "6pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "How to read  ",
+                    "textStyle": {
+                      "fontSize": "15pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Titles  ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "state the conclusion of the page.     ",
+                    "textStyle": {
+                      "fontSize": "15pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Tag  ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "SIMULATED marks generated data.     ",
+                    "textStyle": {
+                      "fontSize": "15pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Dashed lines  ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "mark break-even or a threshold.     ",
+                    "textStyle": {
+                      "fontSize": "15pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Code  ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "SQL, notebook and Power BI project in the repository.",
+                    "textStyle": {
+                      "fontSize": "15pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "16.0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "16.0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

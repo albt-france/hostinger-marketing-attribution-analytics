@@ -1,0 +1,49 @@
+table 'Code Usage'
+	lineageTag: 97e37632-ead7-5163-9c88-7106bf0f0140
+
+	column creator_id
+		dataType: string
+		lineageTag: 042582de-fb22-5955-8052-e093c90a00bd
+		summarizeBy: none
+		sourceColumn: creator_id
+
+	column week
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: c8bc293b-b5da-5a56-852d-3afdbf537dfc
+		summarizeBy: none
+		sourceColumn: week
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column code_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 81794eab-30fd-569a-a1b7-b6e648f61c2b
+		summarizeBy: none
+		sourceColumn: code_orders
+
+	column leaked_code_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 76b64154-01aa-5c36-9173-b2477c8e5231
+		summarizeBy: none
+		sourceColumn: leaked_code_orders
+
+	column videos
+		dataType: int64
+		formatString: #,0
+		lineageTag: 885222a0-136d-58b6-b3a2-e72378071a2e
+		summarizeBy: none
+		sourceColumn: videos
+
+	partition 'Code Usage' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\code_usage_weekly.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"creator_id", "week", "code_orders", "leaked_code_orders", "videos"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"creator_id", type text}, {"week", type date}, {"code_orders", Int64.Type}, {"leaked_code_orders", Int64.Type}, {"videos", Int64.Type}}, "en-US")
+				in
+					Typed

@@ -1,0 +1,41 @@
+table Reallocation
+	lineageTag: 71ee0179-4746-53b8-99f3-7ccb629f479a
+
+	column move
+		dataType: string
+		lineageTag: 1a5c95e6-8645-5f19-b9aa-77ac4d8060f0
+		summarizeBy: none
+		sourceColumn: move
+
+	column budget_change_eur_12m
+		dataType: double
+		formatString: €#,0
+		lineageTag: d476820e-41c4-514b-ae3a-a8af65eddb13
+		summarizeBy: none
+		sourceColumn: budget_change_eur_12m
+
+	column incremental_orders_12m
+		dataType: double
+		formatString: +#,0;-#,0;0
+		lineageTag: 6d8a91e5-08e0-56d1-9504-31a8cb28a334
+		summarizeBy: none
+		sourceColumn: incremental_orders_12m
+
+	column rank
+		dataType: int64
+		formatString: 0
+		lineageTag: 0f42ea32-05c2-5592-a41a-b473dea02d7e
+		summarizeBy: none
+		sourceColumn: rank
+
+	partition Reallocation = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\reallocation.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"move", "budget_change_eur_12m", "incremental_orders_12m"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"move", type text}, {"budget_change_eur_12m", type number}, {"incremental_orders_12m", type number}}, "en-US"),
+					Ranked = Table.AddIndexColumn(Typed, "rank", 1, 1, Int64.Type)
+				in
+					Ranked

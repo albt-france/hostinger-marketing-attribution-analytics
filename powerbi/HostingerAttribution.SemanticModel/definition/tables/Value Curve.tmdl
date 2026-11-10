@@ -1,0 +1,40 @@
+table 'Value Curve'
+	lineageTag: 13f92e72-3b04-5f32-9c96-c78218e6c3e8
+
+	column channel
+		dataType: string
+		lineageTag: 9f27e6f7-3da2-584a-906a-67bab5fe97d8
+		summarizeBy: none
+		sourceColumn: channel
+
+	column months_since_order
+		dataType: int64
+		formatString: 0
+		lineageTag: dd75643a-5591-59c1-b1c4-701b23b42f73
+		summarizeBy: none
+		sourceColumn: months_since_order
+
+	column orders_observed
+		dataType: int64
+		formatString: #,0
+		lineageTag: bc160015-7167-5751-b7ce-b4310712eda8
+		summarizeBy: none
+		sourceColumn: orders_observed
+
+	column cumulative_value_per_order
+		dataType: double
+		formatString: €#,0
+		lineageTag: 199dd591-1ca4-5669-9f7e-e9f072470398
+		summarizeBy: none
+		sourceColumn: cumulative_value_per_order
+
+	partition 'Value Curve' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\value_curve.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"channel", "months_since_order", "orders_observed", "cumulative_value_per_order"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"channel", type text}, {"months_since_order", Int64.Type}, {"orders_observed", Int64.Type}, {"cumulative_value_per_order", type number}}, "en-US")
+				in
+					Typed

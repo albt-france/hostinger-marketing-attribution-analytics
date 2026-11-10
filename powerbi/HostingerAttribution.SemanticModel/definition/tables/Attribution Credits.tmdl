@@ -1,0 +1,40 @@
+table 'Attribution Credits'
+	lineageTag: bd65c973-d5c3-5944-8409-5ef4a3c8021e
+
+	column order_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 16c6652c-2b9f-5d65-88f4-0d20bc0cff98
+		summarizeBy: none
+		sourceColumn: order_id
+
+	column model
+		dataType: string
+		lineageTag: f605efab-5dff-56a0-9709-0781a43669fb
+		summarizeBy: none
+		sourceColumn: model
+
+	column channel
+		dataType: string
+		lineageTag: 5b3fb968-90a4-5629-ad46-cb4082d91ec7
+		summarizeBy: none
+		sourceColumn: channel
+
+	column credit
+		dataType: double
+		formatString: 0.000
+		lineageTag: dcf60fd3-402a-5ea1-a00c-f159f885181b
+		summarizeBy: none
+		sourceColumn: credit
+
+	partition 'Attribution Credits' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\attribution_credits.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"order_id", "model", "channel", "credit"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"order_id", Int64.Type}, {"model", type text}, {"channel", type text}, {"credit", type number}}, "en-US")
+				in
+					Typed

@@ -1,0 +1,9 @@
+metric,value,ci_low,ci_high
+Paid share of brand-search clicks before test,0.5885314895535848,,
+Brand-search clicks lost when brand ads are off,0.08370650012558534,0.027691484058826044,0.13425704680196537
+Brand ads incrementality (clicks),0.1422294331082925,0.04705183078620091,0.22812211272467775
+Ad clicks recaptured by the organic result,0.8577705668917075,0.7718778872753222,0.9529481692137991
+Brand-ads last-click share of brand-search orders before test,0.2932330827067669,,
+Brand-search orders lost when brand ads are off,0.03832830915251617,-0.08779029028951713,0.14294435576566122
+Brand ads incrementality (orders),0.13070936198165772,-0.2993874002180969,0.4874769055598191
+"All orders, test vs control",-0.04535763335290843,-0.09508484121191285,0.007468644309177153

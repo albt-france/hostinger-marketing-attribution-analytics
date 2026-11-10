@@ -1,0 +1,48 @@
+table 'Geo Result'
+	lineageTag: 15a700ab-c4d8-504d-9ece-d3f9859032bc
+
+	column metric
+		dataType: string
+		lineageTag: c5b08ce2-6710-538b-9547-912c4291100f
+		summarizeBy: none
+		sourceColumn: metric
+
+	column value
+		dataType: double
+		formatString: 0%
+		lineageTag: 3e39cbb6-c930-5543-8340-2ce437596e71
+		summarizeBy: none
+		sourceColumn: value
+
+	column ci_low
+		dataType: double
+		formatString: 0%
+		lineageTag: 39cc5ea8-7943-5dac-9feb-b537bec8e84e
+		summarizeBy: none
+		sourceColumn: ci_low
+
+	column ci_high
+		dataType: double
+		formatString: 0%
+		lineageTag: e46a50d3-61a8-5c6b-b575-651dd78f817c
+		summarizeBy: none
+		sourceColumn: ci_high
+
+	column rank
+		dataType: int64
+		formatString: 0
+		lineageTag: de799607-cc09-5a73-9d06-5b46bb14c54c
+		summarizeBy: none
+		sourceColumn: rank
+
+	partition 'Geo Result' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\geo_result.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"metric", "value", "ci_low", "ci_high"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"metric", type text}, {"value", type number}, {"ci_low", type number}, {"ci_high", type number}}, "en-US"),
+					Ranked = Table.AddIndexColumn(Typed, "rank", 1, 1, Int64.Type)
+				in
+					Ranked

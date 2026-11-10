@@ -1,0 +1,56 @@
+table Date
+	lineageTag: b9c5e7e4-9617-5448-b2e3-bf5258449e54
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: dd mmm yyyy
+		lineageTag: 12cb7340-19fb-5ca7-a1a2-86856b555764
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Month
+		dataType: string
+		lineageTag: 5c24baf3-3a2b-5a31-9ea7-ba405f9bd2ef
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: MonthKey
+
+	column MonthKey
+		dataType: int64
+		isHidden
+		lineageTag: edb4087f-ea12-5d81-85e4-b7ddd85ac3bd
+		summarizeBy: none
+		sourceColumn: MonthKey
+
+	column MonthStart
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 9d61fc43-9a7a-5118-9247-40001daf8e19
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 4cb733ef-428a-5057-a4ec-8522078ee66b
+		summarizeBy: none
+		sourceColumn: Year
+
+	partition Date = m
+		mode: import
+		source =
+				let
+					Dates = List.Dates(#date(2024, 5, 1), Duration.Days(#date(2026, 10, 31) - #date(2024, 5, 1)) + 1, #duration(1, 0, 0, 0)),
+					T = Table.FromList(Dates, Splitter.SplitByNothing(), type table [Date = date]),
+					M = Table.AddColumn(T, "Month", each Date.ToText([Date], "MMM yyyy", "en-US"), type text),
+					K = Table.AddColumn(M, "MonthKey", each Date.Year([Date]) * 100 + Date.Month([Date]), Int64.Type),
+					S = Table.AddColumn(K, "MonthStart", each Date.StartOfMonth([Date]), type date),
+					Y = Table.AddColumn(S, "Year", each Date.Year([Date]), Int64.Type)
+				in
+					Y

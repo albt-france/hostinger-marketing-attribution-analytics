@@ -1,0 +1,5 @@
+channel,cost_per_last_click_order,cost_per_incremental_order,method
+PPC Brand,11.822925971513982,83.12573363427587,geo test incrementality
+Affiliates - Coupon,20.79103299990654,47.10901927557727,orders without a cart already started
+PPC Non-brand,,164.72583787505522,"response curve, marginal"
+Influencers,,66.61912601058982,"response curve incl. halo, marginal"

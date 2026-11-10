@@ -1,0 +1,76 @@
+table 'Geo Weekly'
+	lineageTag: 3ebbaaad-93f8-5a89-b82a-38fe1036fc9a
+
+	column week
+		dataType: dateTime
+		formatString: dd mmm
+		lineageTag: 6ec62614-a5b4-56ff-be04-9c6ce2bcd0bd
+		summarizeBy: none
+		sourceColumn: week
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column group
+		dataType: string
+		lineageTag: 7883e35d-b12c-5eb0-9f45-2f82376105df
+		summarizeBy: none
+		sourceColumn: group
+
+	column phase
+		dataType: string
+		lineageTag: 7941c8f3-92c6-5e3d-87ba-5bbd5ba4b956
+		summarizeBy: none
+		sourceColumn: phase
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 21458704-57d8-524c-9af7-95f36783739e
+		summarizeBy: none
+		sourceColumn: orders
+
+	column brand_search_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5184c6ce-0425-5955-8617-47c87e22afc3
+		summarizeBy: none
+		sourceColumn: brand_search_orders
+
+	column orders_index
+		dataType: double
+		formatString: 0
+		lineageTag: adb22c83-a0aa-55af-ab3a-bd585ac44e00
+		summarizeBy: none
+		sourceColumn: orders_index
+
+	column brand_clicks
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7631c774-e188-590d-80b1-b307e4665a46
+		summarizeBy: none
+		sourceColumn: brand_clicks
+
+	column brand_ad_clicks
+		dataType: int64
+		formatString: #,0
+		lineageTag: d122ed0a-8cb6-5fcf-97a4-c78f9b0bd66e
+		summarizeBy: none
+		sourceColumn: brand_ad_clicks
+
+	column organic_brand_clicks
+		dataType: int64
+		formatString: #,0
+		lineageTag: 60d9637d-c3ee-5e4d-99b8-181770db0fa2
+		summarizeBy: none
+		sourceColumn: organic_brand_clicks
+
+	partition 'Geo Weekly' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\geo_did_weekly.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"week", "group", "phase", "orders", "brand_search_orders", "orders_index", "brand_clicks", "brand_ad_clicks", "organic_brand_clicks"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"week", type date}, {"group", type text}, {"phase", type text}, {"orders", Int64.Type}, {"brand_search_orders", Int64.Type}, {"orders_index", type number}, {"brand_clicks", Int64.Type}, {"brand_ad_clicks", Int64.Type}, {"organic_brand_clicks", Int64.Type}}, "en-US")
+				in
+					Typed
