@@ -1,0 +1,60 @@
+table 'Product Daily'
+	lineageTag: cfd0852e-b01f-50c5-827a-e00e2da3452e
+
+	column date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 2fa56030-8d10-526a-90ea-02ba1678f03a
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column product
+		dataType: string
+		lineageTag: 26f4f8ca-d4fc-5861-bb7b-7baedf67ac87
+		summarizeBy: none
+		sourceColumn: product
+
+	column event_name
+		dataType: string
+		lineageTag: f293419c-87ba-5ad6-a2c1-1ec3ca277afd
+		summarizeBy: none
+		sourceColumn: event_name
+
+	column platform
+		dataType: string
+		lineageTag: 65fcdf45-6924-52aa-aaf8-bf7dd4d11a02
+		summarizeBy: none
+		sourceColumn: platform
+
+	column country
+		dataType: string
+		lineageTag: 967766b4-2085-54a1-ba5c-9131893e99ba
+		summarizeBy: none
+		sourceColumn: country
+
+	column users
+		dataType: int64
+		formatString: #,0
+		lineageTag: f6e29181-769c-580a-bc68-8923232add15
+		summarizeBy: none
+		sourceColumn: users
+
+	column events
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5a1c29ac-8965-55c6-9ebe-2bded77bb7e5
+		summarizeBy: none
+		sourceColumn: events
+
+	partition 'Product Daily' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\product_daily.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"date", "product", "event_name", "platform", "country", "users", "events"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"date", type date}, {"product", type text}, {"event_name", type text}, {"platform", type text}, {"country", type text}, {"users", Int64.Type}, {"events", Int64.Type}}, "en-US")
+				in
+					Typed

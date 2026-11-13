@@ -1,0 +1,263 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "stepTable",
+  "position": {
+    "x": 32,
+    "y": 724,
+    "z": 11000,
+    "height": 304,
+    "width": 916,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Reach Funnel"
+                    }
+                  },
+                  "Property": "step"
+                }
+              },
+              "queryRef": "Reach Funnel.step",
+              "nativeQueryRef": "step",
+              "displayName": "Step"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Reach Funnel"
+                    }
+                  },
+                  "Property": "users"
+                }
+              },
+              "queryRef": "Reach Funnel.users",
+              "nativeQueryRef": "users",
+              "displayName": "Users"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Reach Funnel"
+                    }
+                  },
+                  "Property": "conversion_from_previous"
+                }
+              },
+              "queryRef": "Reach Funnel.conversion_from_previous",
+              "nativeQueryRef": "conversion_from_previous",
+              "displayName": "From previous step"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Reach Funnel"
+                    }
+                  },
+                  "Property": "users_lost"
+                }
+              },
+              "queryRef": "Reach Funnel.users_lost",
+              "nativeQueryRef": "users_lost",
+              "displayName": "Users lost"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Reach Funnel"
+                    }
+                  },
+                  "Property": "median_hours_from_previous"
+                }
+              },
+              "queryRef": "Reach Funnel.median_hours_from_previous",
+              "nativeQueryRef": "median_hours_from_previous",
+              "displayName": "Median hours from previous"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Reach Funnel"
+                  }
+                },
+                "Property": "users"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "FillRule": {
+                      "Input": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Reach Funnel"
+                            }
+                          },
+                          "Property": "conversion_from_previous"
+                        }
+                      },
+                      "FillRule": {
+                        "linearGradient2": {
+                          "min": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#F4C7C6'"
+                              }
+                            }
+                          },
+                          "max": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#B7D3F6'"
+                              }
+                            }
+                          },
+                          "nullColoringStrategy": {
+                            "strategy": {
+                              "Literal": {
+                                "Value": "'asZero'"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Reach Funnel.conversion_from_previous"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12.0D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Step by step: conversion from the previous step and median time it takes'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

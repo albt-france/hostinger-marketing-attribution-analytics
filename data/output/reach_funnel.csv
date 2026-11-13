@@ -1,0 +1,5 @@
+step_order,step,users,conversion_from_start,conversion_from_previous,users_lost,median_hours_from_previous
+1,Onboarding started,43277,1.0,1.0,,
+2,Template chosen,35895,0.8294244055733992,0.8294244055733992,7382,5.733333333333333
+3,Contacts imported,20529,0.47436282551932896,0.5719180944421228,15366,16.7
+4,First campaign sent,14914,0.3446172331723548,0.7264844853621706,5615,73.64166666666668

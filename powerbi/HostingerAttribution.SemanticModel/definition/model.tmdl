@@ -27,8 +27,24 @@ ref table 'Geo Result'
 ref table 'Video Event Study'
 ref table 'Incremental Cost'
 ref table Reallocation
+ref table 'Reach Users'
+ref table 'Experiment Users'
+ref table Referrals
+ref table 'Product Daily'
+ref table 'Reach Funnel'
+ref table 'Reach Adoption by Channel'
+ref table 'Aha Retention'
+ref table 'Adoption Curve'
+ref table 'AB Daily'
+ref table 'AB Result'
+ref table 'AB Power'
+ref table 'Mail AI Lift'
+ref table 'Referral Bands'
+ref table 'Referral Scenarios'
 ref table Channel
 ref table 'Attribution Model'
 ref table Country
+ref table Product
+ref table 'AB Variant'
 ref table Date
 ref table _Measures

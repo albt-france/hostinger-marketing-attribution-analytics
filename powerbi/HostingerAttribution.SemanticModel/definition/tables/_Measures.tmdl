@@ -206,6 +206,186 @@ table _Measures
 		displayFolder: Incrementality
 		lineageTag: 396c033d-9fd2-5b0a-9475-6e12bfc19ede
 
+	measure 'Reach Starters' = CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[funnel_complete] = TRUE () )
+		formatString: #,0
+		displayFolder: Product\Funnel
+		lineageTag: 6d0e45bd-6742-5835-9ad1-1d2a9e94895d
+
+	measure 'Template Rate' = DIVIDE ( CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[funnel_complete] = TRUE (), 'Reach Users'[reached_template] = TRUE () ), [Reach Starters] )
+		formatString: 0%
+		displayFolder: Product\Funnel
+		lineageTag: c3d2cc66-8004-5c3c-b76e-990cbd04f10e
+
+	measure 'Contacts Rate' = DIVIDE ( CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[funnel_complete] = TRUE (), 'Reach Users'[reached_contacts] = TRUE () ), [Reach Starters] )
+		formatString: 0%
+		displayFolder: Product\Funnel
+		lineageTag: 8e6ab135-87d8-5952-b5b0-a2bc43796a3e
+
+	measure 'First Campaign Rate' = DIVIDE ( CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[funnel_complete] = TRUE (), 'Reach Users'[reached_campaign] = TRUE () ), [Reach Starters] )
+		formatString: 0%
+		displayFolder: Product\Funnel
+		lineageTag: 4cd4b4ed-ff5b-5db6-bb38-d7410030b3de
+
+	measure 'Contacts Step Conversion' = DIVIDE ( [Contacts Rate], [Template Rate] )
+		formatString: 0%
+		displayFolder: Product\Funnel
+		lineageTag: 386575bf-e70f-5c21-a451-723490fc601d
+
+	measure 'Activation Rate 7d' = DIVIDE ( CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[funnel_complete] = TRUE (), 'Reach Users'[activated_7d] = TRUE () ), [Reach Starters] )
+		formatString: 0.0%
+		displayFolder: Product\Adoption
+		lineageTag: ede1dc2a-d5ae-5565-8988-65dd6991553c
+
+	measure 'Retention D7' = DIVIDE ( CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[mature_d7] = TRUE (), 'Reach Users'[retained_d7] = TRUE () ), CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[mature_d7] = TRUE () ) )
+		formatString: 0%
+		displayFolder: Product\Adoption
+		lineageTag: 10e337cb-220a-5f86-ac30-af332ebc17ac
+
+	measure 'Retention D30' = DIVIDE ( CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[mature_d30] = TRUE (), 'Reach Users'[retained_d30] = TRUE () ), CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[mature_d30] = TRUE () ) )
+		formatString: 0%
+		displayFolder: Product\Adoption
+		lineageTag: a9badbe9-2b63-573c-8a84-474ca0ca0f0d
+
+	measure 'Retention D30 Adopters' = CALCULATE ( [Retention D30], 'Reach Users'[activated_7d] = TRUE () )
+		formatString: 0%
+		displayFolder: Product\Adoption
+		lineageTag: f89580f3-6082-5cfd-a99d-474142e6cf33
+
+	measure 'Upgrade Rate 60d' = DIVIDE ( CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[mature_60d] = TRUE (), 'Reach Users'[upgraded_60d] = TRUE () ), CALCULATE ( COUNTROWS ( 'Reach Users' ), 'Reach Users'[mature_60d] = TRUE () ) )
+		formatString: 0.0%
+		displayFolder: Product\Adoption
+		lineageTag: eead68a9-89ff-5096-861c-31f61758e304
+
+	measure 'Activated per 100 Customers' = AVERAGE ( 'Reach Adoption by Channel'[activated_per_customer] ) * 100
+		formatString: 0.0
+		displayFolder: Product\Adoption
+		lineageTag: 52a0ddde-e124-5383-82c3-99d9b307a503
+
+	measure 'Retention by Week' = AVERAGE ( 'Adoption Curve'[retention] )
+		formatString: 0%
+		displayFolder: Product\Adoption
+		lineageTag: 464b1a57-4b8f-56da-ac7b-da2d3d889a0b
+
+	measure 'Mail AI Lift' = AVERAGE ( 'Mail AI Lift'[did_lift] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Product\Adoption
+		lineageTag: 224a220e-46da-5ff9-8433-27421f313eb5
+
+	measure 'Test Users' = CALCULATE ( COUNTROWS ( 'Experiment Users' ), 'Experiment Users'[assigned_date] <> DATE ( 2026, 7, 14 ) )
+		formatString: #,0
+		displayFolder: Product\A/B test
+		lineageTag: ba4fecc2-10da-5681-a714-2693930287b4
+
+	measure 'Test Activation Rate' = DIVIDE ( CALCULATE ( COUNTROWS ( 'Experiment Users' ), 'Experiment Users'[assigned_date] <> DATE ( 2026, 7, 14 ), 'Experiment Users'[activated_7d] = TRUE () ), [Test Users] )
+		formatString: 0.0%
+		displayFolder: Product\A/B test
+		lineageTag: dd47e3a7-6949-5358-b2bf-eda3576b3665
+
+	measure 'Control Activation' = CALCULATE ( [Test Activation Rate], 'AB Variant'[variant] = "control" )
+		formatString: 0.0%
+		displayFolder: Product\A/B test
+		lineageTag: ee020a25-15b5-5f3a-bc0d-741a96dfdae5
+
+	measure 'Treatment Activation' = CALCULATE ( [Test Activation Rate], 'AB Variant'[variant] = "treatment" )
+		formatString: 0.0%
+		displayFolder: Product\A/B test
+		lineageTag: 22e21f12-edd0-526c-a19c-e17bdc8231bf
+
+	measure 'Test Effect' = [Treatment Activation] - [Control Activation]
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Product\A/B test
+		lineageTag: 16c62cc9-6cd6-5ca6-b80c-62abc2a211e7
+
+	measure 'Assigned Users All Days' = COUNTROWS ( 'Experiment Users' )
+		formatString: #,0
+		displayFolder: Product\A/B test
+		lineageTag: 5263209b-a4f2-5f86-9494-eb1bd8e3ff45
+
+	measure 'Control Users per Day' = SUM ( 'AB Daily'[control_users] )
+		formatString: #,0
+		displayFolder: Product\A/B test
+		lineageTag: 0d1a473c-4d04-5a53-8adc-8e3bb096fcd8
+
+	measure 'Treatment Users per Day' = SUM ( 'AB Daily'[treatment_users] )
+		formatString: #,0
+		displayFolder: Product\A/B test
+		lineageTag: 71133c88-3ef5-5cf2-a48d-fc734812e40b
+
+	measure 'Users per Arm Needed' = SUM ( 'AB Power'[users_per_arm] )
+		formatString: #,0
+		displayFolder: Product\A/B test
+		lineageTag: dba7a2cc-338e-568c-b8f4-cc4d15570aa4
+
+	measure 'Referral Count' = COUNTROWS ( Referrals )
+		formatString: #,0
+		displayFolder: Product\Referral
+		lineageTag: ebd4022e-f05b-521e-8fe1-e722cf5ca0c0
+
+	measure 'Referral Programme Cost' = SUM ( Referrals[programme_cost_eur] )
+		formatString: €#,0
+		displayFolder: Product\Referral
+		lineageTag: dc8077a9-5ba4-563c-8ddf-6a92e647a2cf
+
+	measure 'Referral Reward Cost' = SUM ( Referrals[reward_cost_eur] )
+		formatString: €#,0
+		displayFolder: Product\Referral
+		lineageTag: d9abf6fb-002e-526f-a9ec-acae6b4acc23
+
+	measure 'Referral Value 12m Clean' = CALCULATE ( SUM ( Referrals[expected_value_12m] ), Referrals[flag_self_referral] = FALSE () )
+		formatString: €#,0
+		displayFolder: Product\Referral
+		lineageTag: bdcfae0c-c465-5629-ab68-afff889685ab
+
+	measure 'Break-even Incrementality' = DIVIDE ( [Referral Programme Cost], [Referral Value 12m Clean] )
+		formatString: 0%
+		displayFolder: Product\Referral
+		lineageTag: d56bf091-4a74-50cf-9ca1-ed361cd578d2
+
+	measure 'Self-referral Count' = CALCULATE ( [Referral Count], Referrals[flag_self_referral] = TRUE () )
+		formatString: #,0
+		displayFolder: Product\Referral
+		lineageTag: 3fbb6e2d-5da1-5405-bf4f-b9c83764f401
+
+	measure 'Self-referral Share' = DIVIDE ( [Self-referral Count], [Referral Count] )
+		formatString: 0.0%
+		displayFolder: Product\Referral
+		lineageTag: 76449993-d1c1-5899-8593-f997eeda6f67
+
+	measure 'Self-referral Cost Share' = DIVIDE ( CALCULATE ( [Referral Programme Cost], Referrals[flag_self_referral] = TRUE () ), [Referral Programme Cost] )
+		formatString: 0%
+		displayFolder: Product\Referral
+		lineageTag: 3dce9c4e-d2bc-5076-b6b8-3d2e9dc51a02
+
+	measure 'Median Minutes Link to Sign-up' = MEDIAN ( Referrals[minutes_link_to_signup] )
+		formatString: #,0
+		displayFolder: Product\Referral
+		lineageTag: 3a2c456c-14e8-5f27-b306-2d07633dc0ff
+
+	measure 'Clean Referrals' = CALCULATE ( [Referral Count], Referrals[flag_self_referral] = FALSE () )
+		formatString: #,0
+		displayFolder: Product\Referral
+		lineageTag: 9e2b47b8-43cb-55f1-b96a-927bbc6c8442
+
+	measure 'Scenario Net Value' = SUM ( 'Referral Scenarios'[net_value_year_eur] )
+		formatString: €#,0
+		displayFolder: Product\Referral
+		lineageTag: a50cdd28-0e96-5d6a-ae14-99b5092a6169
+
+	measure 'Band Programme Cost' = SUM ( 'Referral Bands'[programme_cost_eur] )
+		formatString: €#,0
+		displayFolder: Product\Referral
+		lineageTag: 3b34c10f-592a-5314-bacd-ad7fb2c90cf1
+
+	measure 'Band Value 12m' = SUM ( 'Referral Bands'[value_12m_clean_eur] )
+		formatString: €#,0
+		displayFolder: Product\Referral
+		lineageTag: 060d6bd0-32d9-58d6-bd85-764921a2471d
+
+	measure 'Product Events' = SUM ( 'Product Daily'[events] )
+		formatString: #,0
+		displayFolder: Product\Events
+		lineageTag: b2ebb2a9-996a-50bc-9dc9-d93d5a3087df
+
 	column '_'
 		dataType: string
 		isHidden

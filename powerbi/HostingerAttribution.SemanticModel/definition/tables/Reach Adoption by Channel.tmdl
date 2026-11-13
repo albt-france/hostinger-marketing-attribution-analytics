@@ -1,0 +1,47 @@
+table 'Reach Adoption by Channel'
+	lineageTag: 644fb784-ce32-5fd7-99b2-c3f2f96257e4
+
+	column channel
+		dataType: string
+		lineageTag: 34f035e0-b535-5030-b532-6f260b6e0b46
+		summarizeBy: none
+		sourceColumn: channel
+
+	column new_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3f00f502-86d0-590e-a1f2-67c1ed976ef6
+		summarizeBy: none
+		sourceColumn: new_customers
+
+	column started_reach_rate
+		dataType: double
+		formatString: 0%
+		lineageTag: f53a9d34-030d-5f25-9016-c278303b2b7c
+		summarizeBy: none
+		sourceColumn: started_reach_rate
+
+	column activated_per_customer
+		dataType: double
+		formatString: 0.0%
+		lineageTag: d8725501-b236-5090-9b53-337c7ced476d
+		summarizeBy: none
+		sourceColumn: activated_per_customer
+
+	column activated_7d_rate_of_starters
+		dataType: double
+		formatString: 0%
+		lineageTag: 8bdbb310-894e-5258-aa8f-808951e8495e
+		summarizeBy: none
+		sourceColumn: activated_7d_rate_of_starters
+
+	partition 'Reach Adoption by Channel' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\reach_adoption_by_channel.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"channel", "new_customers", "started_reach_rate", "activated_per_customer", "activated_7d_rate_of_starters"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"channel", type text}, {"new_customers", Int64.Type}, {"started_reach_rate", type number}, {"activated_per_customer", type number}, {"activated_7d_rate_of_starters", type number}}, "en-US")
+				in
+					Typed

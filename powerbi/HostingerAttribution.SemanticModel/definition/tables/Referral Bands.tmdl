@@ -1,0 +1,84 @@
+table 'Referral Bands'
+	lineageTag: 4a914969-cb19-56d1-8ee3-0537aa10ff72
+
+	column reward_band_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dffe0498-a926-5ea9-bf09-584493f30123
+		summarizeBy: none
+		sourceColumn: reward_band_order
+
+	column reward_band
+		dataType: string
+		lineageTag: ed59ad08-66a8-5bfb-9f99-b8bb59588761
+		summarizeBy: none
+		sourceColumn: reward_band
+		sortByColumn: reward_band_order
+
+	column referrals
+		dataType: int64
+		formatString: #,0
+		lineageTag: f2f65d96-714e-5960-b411-566b8db57d9b
+		summarizeBy: none
+		sourceColumn: referrals
+
+	column flagged_self_referrals
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6f163359-98e6-5053-8f70-a208185cdd33
+		summarizeBy: none
+		sourceColumn: flagged_self_referrals
+
+	column avg_plan_months
+		dataType: double
+		formatString: 0
+		lineageTag: f2049f91-525c-53d3-9a74-f83a6be914f3
+		summarizeBy: none
+		sourceColumn: avg_plan_months
+
+	column refund_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: fdda869c-1fed-5b44-9687-4710c3ae0099
+		summarizeBy: none
+		sourceColumn: refund_rate
+
+	column programme_cost_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: a78fbf77-9cc8-5e7e-bd1c-303a74546b71
+		summarizeBy: none
+		sourceColumn: programme_cost_eur
+
+	column cost_on_self_referrals_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: 98e59495-a79d-5fd6-adaa-e7d1f81d8141
+		summarizeBy: none
+		sourceColumn: cost_on_self_referrals_eur
+
+	column value_12m_clean_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: 8208ff43-b682-5bed-a1ef-d6336a6564b0
+		summarizeBy: none
+		sourceColumn: value_12m_clean_eur
+
+	column break_even_incrementality
+		dataType: double
+		formatString: 0%
+		lineageTag: c3115dea-8682-505a-a77e-9b812879ff5c
+		summarizeBy: none
+		sourceColumn: break_even_incrementality
+
+	partition 'Referral Bands' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\referral_by_band.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"reward_band_order", "reward_band", "referrals", "flagged_self_referrals", "avg_plan_months", "refund_rate", "programme_cost_eur", "cost_on_self_referrals_eur", "value_12m_clean_eur", "break_even_incrementality"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"reward_band_order", Int64.Type}, {"reward_band", type text}, {"referrals", Int64.Type}, {"flagged_self_referrals", Int64.Type}, {"avg_plan_months", type number}, {"refund_rate", type number}, {"programme_cost_eur", type number}, {"cost_on_self_referrals_eur", type number}, {"value_12m_clean_eur", type number}, {"break_even_incrementality", type number}}, "en-US")
+				in
+					Typed

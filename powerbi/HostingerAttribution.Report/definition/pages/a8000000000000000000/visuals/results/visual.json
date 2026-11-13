@@ -1,0 +1,320 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "results",
+  "position": {
+    "x": 32,
+    "y": 714,
+    "z": 10000,
+    "height": 314,
+    "width": 1114,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AB Result"
+                    }
+                  },
+                  "Property": "metric"
+                }
+              },
+              "queryRef": "AB Result.metric",
+              "nativeQueryRef": "metric",
+              "displayName": "Metric"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AB Result"
+                    }
+                  },
+                  "Property": "control"
+                }
+              },
+              "queryRef": "AB Result.control",
+              "nativeQueryRef": "control",
+              "displayName": "Control"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AB Result"
+                    }
+                  },
+                  "Property": "treatment"
+                }
+              },
+              "queryRef": "AB Result.treatment",
+              "nativeQueryRef": "treatment",
+              "displayName": "Treatment"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AB Result"
+                    }
+                  },
+                  "Property": "diff"
+                }
+              },
+              "queryRef": "AB Result.diff",
+              "nativeQueryRef": "diff",
+              "displayName": "Effect"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AB Result"
+                    }
+                  },
+                  "Property": "ci_low"
+                }
+              },
+              "queryRef": "AB Result.ci_low",
+              "nativeQueryRef": "ci_low",
+              "displayName": "CI low"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AB Result"
+                    }
+                  },
+                  "Property": "ci_high"
+                }
+              },
+              "queryRef": "AB Result.ci_high",
+              "nativeQueryRef": "ci_high",
+              "displayName": "CI high"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AB Result"
+                    }
+                  },
+                  "Property": "p_value"
+                }
+              },
+              "queryRef": "AB Result.p_value",
+              "nativeQueryRef": "p_value",
+              "displayName": "p"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AB Result"
+                    }
+                  },
+                  "Property": "p_holm"
+                }
+              },
+              "queryRef": "AB Result.p_holm",
+              "nativeQueryRef": "p_holm",
+              "displayName": "p (Holm)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "AB Result"
+                  }
+                },
+                "Property": "metric"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11.0D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "FillRule": {
+                      "Input": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "AB Result"
+                            }
+                          },
+                          "Property": "diff"
+                        }
+                      },
+                      "FillRule": {
+                        "linearGradient3": {
+                          "min": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#F4C7C6'"
+                              }
+                            }
+                          },
+                          "max": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#B7D3F6'"
+                              }
+                            }
+                          },
+                          "nullColoringStrategy": {
+                            "strategy": {
+                              "Literal": {
+                                "Value": "'asZero'"
+                              }
+                            }
+                          },
+                          "mid": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#F0EFEC'"
+                              }
+                            },
+                            "value": {
+                              "Literal": {
+                                "Value": "0.0D"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "AB Result.diff"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11.0D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Results on the clean sample (95% CI; p_holm = corrected for the 4 secondary metrics)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

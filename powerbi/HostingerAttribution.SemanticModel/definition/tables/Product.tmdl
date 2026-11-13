@@ -1,0 +1,26 @@
+table Product
+	lineageTag: 069ea034-70f4-56af-b06d-9d8225ef013d
+
+	column product
+		dataType: string
+		lineageTag: c9b11586-2c3a-5540-9d96-707741fd8377
+		summarizeBy: none
+		sourceColumn: product
+		sortByColumn: product_sort
+
+	column product_name
+		dataType: string
+		lineageTag: 621e3116-2f50-5d52-8c76-e0bd7b39a857
+		summarizeBy: none
+		sourceColumn: product_name
+
+	column product_sort
+		dataType: int64
+		isHidden
+		lineageTag: c3b7bb8d-2820-5ba6-a297-81e249b94864
+		summarizeBy: none
+		sourceColumn: product_sort
+
+	partition Product = m
+		mode: import
+		source = #table(type table [product = text, product_name = text, product_sort = Int64.Type], {{"Reach", "Hostinger Reach (AI e-mail marketing)", 1}, {"Mail", "Hostinger Mail (business e-mail)", 2}, {"Referral", "Customer referral programme", 3}})

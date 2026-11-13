@@ -1,0 +1,57 @@
+table 'AB Daily'
+	lineageTag: 44ce2715-b6e5-5ba9-bc27-41eb9018a9f2
+
+	column assigned_date
+		dataType: dateTime
+		formatString: dd mmm
+		lineageTag: 307f2888-4726-5176-8b0b-084d98e75633
+		summarizeBy: none
+		sourceColumn: assigned_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column control_users
+		dataType: int64
+		formatString: #,0
+		lineageTag: d20b634d-c9ea-5d01-988e-8691c687d93a
+		summarizeBy: none
+		sourceColumn: control_users
+
+	column treatment_users
+		dataType: int64
+		formatString: #,0
+		lineageTag: d31efe6b-864d-59e4-88a0-4cd9489feb0f
+		summarizeBy: none
+		sourceColumn: treatment_users
+
+	column users
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8272324d-8d87-5525-a55c-22bb6ac13d1a
+		summarizeBy: none
+		sourceColumn: users
+
+	column treatment_share
+		dataType: double
+		formatString: 0%
+		lineageTag: b815bc9c-6c9b-5fd9-ba5a-8a441f122dfa
+		summarizeBy: none
+		sourceColumn: treatment_share
+
+	column srm_z
+		dataType: double
+		formatString: 0.0
+		lineageTag: e7532dd1-bd04-5d33-9733-b504f5466109
+		summarizeBy: none
+		sourceColumn: srm_z
+
+	partition 'AB Daily' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\ab_daily.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"assigned_date", "control_users", "treatment_users", "users", "treatment_share", "srm_z"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"assigned_date", type date}, {"control_users", Int64.Type}, {"treatment_users", Int64.Type}, {"users", Int64.Type}, {"treatment_share", type number}, {"srm_z", type number}}, "en-US")
+				in
+					Typed

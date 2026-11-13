@@ -1,0 +1,186 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "definition",
+  "position": {
+    "x": 32,
+    "y": 724,
+    "z": 10000,
+    "height": 304,
+    "width": 916,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Proposed definition of a successful Reach adoption",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Leading, week 1   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "first campaign within 7 days of the start: predicts retention, early enough to act on, moved by onboarding.",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Habit, week 5   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "a core action in days 28-34 (campaign, AI copy, template, contacts).",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Value, month 2   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "upgrade to a paid plan within 60 days (the free Starter plan stops at 100 recipients).",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "",
+                    "textStyle": {
+                      "fontSize": "6pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Proving causality   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "randomise a strong push to the first campaign (contacts-import assistant + day-2 reminder) and compare retention by assigned group (intention to treat).",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "16.0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "16.0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

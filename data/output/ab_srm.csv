@@ -1,0 +1,3 @@
+sample,control_users,treatment_users,chi_square,p_value
+All assigned users,5288,4564,53.20503451075923,3.0048767770344665e-13
+Without 14 July,4354,4313,0.1939540786892812,0.6596458474863263

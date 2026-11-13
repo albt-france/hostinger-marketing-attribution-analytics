@@ -1,0 +1,164 @@
+table Referrals
+	lineageTag: 471a19c4-78fd-5301-82a1-276d0390a394
+
+	column referral_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 29bba890-0381-590a-9ba7-96abaac32c35
+		summarizeBy: none
+		sourceColumn: referral_id
+
+	column referral_date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 949fa7cb-df33-5663-abe5-b4ba8c9d7f42
+		summarizeBy: none
+		sourceColumn: referral_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column referral_month
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 5c63734d-ab6c-5eab-b744-b5ef4f57ea10
+		summarizeBy: none
+		sourceColumn: referral_month
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column country
+		dataType: string
+		lineageTag: 0dc95e4d-002e-53ce-979f-5d4eb42f7650
+		summarizeBy: none
+		sourceColumn: country
+
+	column channel
+		dataType: string
+		lineageTag: a89f2cf9-21b1-5a81-9967-d0cdf1c5f179
+		summarizeBy: none
+		sourceColumn: channel
+
+	column hosting_product
+		dataType: string
+		lineageTag: e9175f8a-063e-54dd-bc34-396c1208e975
+		summarizeBy: none
+		sourceColumn: hosting_product
+
+	column plan_months
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d7ff85b-7608-5a8e-b8be-83b227446e30
+		summarizeBy: none
+		sourceColumn: plan_months
+
+	column reward_status
+		dataType: string
+		lineageTag: b7156147-a111-58dc-adaa-36b623ba25c9
+		summarizeBy: none
+		sourceColumn: reward_status
+
+	column reward_band
+		dataType: string
+		lineageTag: 62e88806-5c64-5513-9a0b-20b318c3431c
+		summarizeBy: none
+		sourceColumn: reward_band
+		sortByColumn: reward_band_order
+
+	column reward_band_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1da9cf9d-7b74-5576-9ee7-0f56ae83c957
+		summarizeBy: none
+		sourceColumn: reward_band_order
+
+	column paid_amount_eur
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: 4d571fda-08ef-5dff-ab1b-178aa6460af0
+		summarizeBy: none
+		sourceColumn: paid_amount_eur
+
+	column is_refunded
+		dataType: boolean
+		lineageTag: 12aa25cd-acff-5a3a-a487-a32e56aea86e
+		summarizeBy: none
+		sourceColumn: is_refunded
+
+	column expected_value_12m
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: 0f7cd327-a405-514b-aa57-f4ca7adbbdf7
+		summarizeBy: none
+		sourceColumn: expected_value_12m
+
+	column reward_cost_eur
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: b01d58e4-c14f-56ff-8467-2ad94e1bd710
+		summarizeBy: none
+		sourceColumn: reward_cost_eur
+
+	column discount_cost_eur
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: 4c678615-38ac-5eb2-9438-cb6d38391608
+		summarizeBy: none
+		sourceColumn: discount_cost_eur
+
+	column programme_cost_eur
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: b109cd62-9fcb-5c37-99a6-232a248405c8
+		summarizeBy: none
+		sourceColumn: programme_cost_eur
+
+	column net_value_after_cost_eur
+		dataType: double
+		formatString: €#,0.00
+		lineageTag: f70c5a2d-0b2b-5f18-9099-6081b7c5d3e9
+		summarizeBy: none
+		sourceColumn: net_value_after_cost_eur
+
+	column fraud_check
+		dataType: string
+		lineageTag: 7e8ddd56-e20d-52c9-a19d-b02ccb6161cd
+		summarizeBy: none
+		sourceColumn: fraud_check
+
+	column flag_self_referral
+		dataType: boolean
+		lineageTag: a044b576-75cd-5854-8f48-0d38a658f2f5
+		summarizeBy: none
+		sourceColumn: flag_self_referral
+
+	column same_payment_card
+		dataType: boolean
+		lineageTag: a650094b-d65e-580a-ae03-b26b136c4d81
+		summarizeBy: none
+		sourceColumn: same_payment_card
+
+	column same_device
+		dataType: boolean
+		lineageTag: 9b9d5c93-e4d6-5442-96eb-702bd9f5f425
+		summarizeBy: none
+		sourceColumn: same_device
+
+	column minutes_link_to_signup
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 6c13b98b-3bde-524f-bdbd-a32154eaad12
+		summarizeBy: none
+		sourceColumn: minutes_link_to_signup
+
+	partition Referrals = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\referral_detail.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"referral_id", "referral_date", "referral_month", "country", "channel", "hosting_product", "plan_months", "reward_status", "reward_band", "reward_band_order", "paid_amount_eur", "is_refunded", "expected_value_12m", "reward_cost_eur", "discount_cost_eur", "programme_cost_eur", "net_value_after_cost_eur", "fraud_check", "flag_self_referral", "same_payment_card", "same_device", "minutes_link_to_signup"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"referral_id", Int64.Type}, {"referral_date", type date}, {"referral_month", type date}, {"country", type text}, {"channel", type text}, {"hosting_product", type text}, {"plan_months", Int64.Type}, {"reward_status", type text}, {"reward_band", type text}, {"reward_band_order", Int64.Type}, {"paid_amount_eur", type number}, {"is_refunded", type logical}, {"expected_value_12m", type number}, {"reward_cost_eur", type number}, {"discount_cost_eur", type number}, {"programme_cost_eur", type number}, {"net_value_after_cost_eur", type number}, {"fraud_check", type text}, {"flag_self_referral", type logical}, {"same_payment_card", type logical}, {"same_device", type logical}, {"minutes_link_to_signup", type number}}, "en-US")
+				in
+					Typed

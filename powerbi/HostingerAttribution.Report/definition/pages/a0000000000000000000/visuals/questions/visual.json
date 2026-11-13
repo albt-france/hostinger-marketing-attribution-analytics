@@ -21,9 +21,16 @@
                   {
                     "value": "Business questions",
                     "textStyle": {
-                      "fontSize": "22pt",
+                      "fontSize": "20pt",
                       "color": "#0B0B0B",
                       "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "   marketing & product analytics",
+                    "textStyle": {
+                      "fontSize": "15pt",
+                      "color": "#52514E"
                     }
                   }
                 ]
@@ -33,7 +40,7 @@
                   {
                     "value": "",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "6pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -44,7 +51,7 @@
                   {
                     "value": "1 · Efficiency   ",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#2A78D6",
                       "fontWeight": "bold"
                     }
@@ -52,7 +59,7 @@
                   {
                     "value": "What does a customer cost per channel, and which channel pays back?",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -63,7 +70,7 @@
                   {
                     "value": "2 · Attribution   ",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#2A78D6",
                       "fontWeight": "bold"
                     }
@@ -71,7 +78,7 @@
                   {
                     "value": "What changes when the attribution model changes?",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -82,7 +89,7 @@
                   {
                     "value": "3 · Partners   ",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#2A78D6",
                       "fontWeight": "bold"
                     }
@@ -90,7 +97,7 @@
                   {
                     "value": "Which creators and affiliates are really worth their price?",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -101,7 +108,7 @@
                   {
                     "value": "4 · Quality   ",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#2A78D6",
                       "fontWeight": "bold"
                     }
@@ -109,7 +116,7 @@
                   {
                     "value": "Do the customers of each channel stay and renew?",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -120,7 +127,7 @@
                   {
                     "value": "5 · Budget   ",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
                       "color": "#2A78D6",
                       "fontWeight": "bold"
                     }
@@ -128,7 +135,45 @@
                   {
                     "value": "Does spend create sales, and where should the next euro go?",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "14pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "6 · Adoption   ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Where do new Reach users drop out, and what is a successful adoption? (pages 6-7)",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "7 · Experiments   ",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Does the AI-prefilled campaign work, and is the referral reward worth it? (pages 8-9)",
+                    "textStyle": {
+                      "fontSize": "14pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -139,7 +184,7 @@
                   {
                     "value": "",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "6pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -148,17 +193,36 @@
               {
                 "textRuns": [
                   {
-                    "value": "Recommendation: ",
+                    "value": "Marketing: ",
                     "textStyle": {
-                      "fontSize": "16pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "steer budget on 12-month net value and incrementality, not last-click orders. Trim PPC non-brand by 20%, stop paying coupon commission when the cart was already started, and move the €305k to creators (+2,144 orders a year at the same budget). Keep 'hostinger' search ads only where competitors bid on the brand.",
+                    "value": "steer budget on 12-month net value and incrementality, not last-click orders. Trim PPC non-brand by 20%, stop paying coupon commission when the cart was already started, move the €305k to creators (+2,144 orders a year at the same budget).",
                     "textStyle": {
-                      "fontSize": "15pt",
+                      "fontSize": "13pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Product: ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "fix the contacts-import step, ship the AI-prefilled first campaign with a holdout, block self-referrals before touching the reward rate.",
+                    "textStyle": {
+                      "fontSize": "13pt",
                       "color": "#52514E"
                     }
                   }

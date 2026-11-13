@@ -21,7 +21,7 @@
                   {
                     "value": "Data & methods",
                     "textStyle": {
-                      "fontSize": "22pt",
+                      "fontSize": "20pt",
                       "color": "#0B0B0B",
                       "fontWeight": "bold"
                     }
@@ -33,7 +33,7 @@
                   {
                     "value": "",
                     "textStyle": {
-                      "fontSize": "10pt",
+                      "fontSize": "6pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -44,15 +44,15 @@
                   {
                     "value": "SIMULATED   ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "30 months, 6 countries, 1.3M visitors, 2.6M touchpoints, 129,431 orders, generated in Python (seed 42). Not Hostinger data.",
+                    "value": "30 months, 6 countries, 1.3M visitors, 2.6M touchpoints, 129,431 orders; for the same customers 2.3M product events (Amplitude format), 45,778 Reach users, one A/B test, 3,620 referrals (Python, seed 42). Not Hostinger data.",
                     "textStyle": {
-                      "fontSize": "15pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -63,15 +63,15 @@
                   {
                     "value": "PUBLIC   ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "Hostinger prices and renewal prices, 30-day money-back guarantee, affiliate terms (hostinger.com, 10 Nov 2026).",
+                    "value": "Hostinger prices, 30-day money-back guarantee, affiliate terms (10 Nov 2026); Reach plans and referral terms (13 Nov 2026).",
                     "textStyle": {
-                      "fontSize": "15pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -82,15 +82,15 @@
                   {
                     "value": "SQL   ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "paths, 5 rule-based models (window functions), censoring-safe customer value, scorecards, data-quality checks.",
+                    "value": "paths, 5 attribution models, censoring-safe customer value and retention, ordered funnels, test checks (window functions).",
                     "textStyle": {
-                      "fontSize": "15pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -101,15 +101,15 @@
                   {
                     "value": "Python   ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "Markov removal effect, geo-test difference-in-differences with bootstrap, video event study, response curves.",
+                    "value": "Markov, geo-test and rollout difference-in-differences, A/B test (power, sample-ratio check, z-test, bootstrap), scenarios.",
                     "textStyle": {
-                      "fontSize": "15pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -120,15 +120,15 @@
                   {
                     "value": "Power BI   ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "star schema, 41 DAX measures, an attribution-model switch on the efficiency page.",
+                    "value": "star schema shared by both parts, 77 DAX measures, an attribution-model switch.",
                     "textStyle": {
-                      "fontSize": "15pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -139,15 +139,15 @@
                   {
                     "value": "AI   ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "I used Claude Code to write the scripts efficiently. The decisions are mine: the questions, the data design and assumptions, the methods, the checks and the report build.",
+                    "value": "AI-assisted workflow: I used Claude, mainly to write scripts faster. I drove the project: I defined the questions, chose and validated the data sources, made the analytical decisions and checked every result.",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "13pt",
                       "color": "#52514E"
                     }
                   }

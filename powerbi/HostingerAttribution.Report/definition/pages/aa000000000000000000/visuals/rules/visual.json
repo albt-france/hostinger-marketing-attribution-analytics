@@ -1,0 +1,205 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "rules",
+  "position": {
+    "x": 1285,
+    "y": 156,
+    "z": 6000,
+    "height": 520,
+    "width": 603,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Modelling rules",
+                    "textStyle": {
+                      "fontSize": "18pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "",
+                    "textStyle": {
+                      "fontSize": "6pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Single-direction ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "relationships, dimension → fact, no many-to-many.",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Censoring-safe ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "rates: a user counts only once the window is over (funnel_complete, mature_d30, ...).",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Test data ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "A/B measures exclude 14 July, the day of the sample-ratio mismatch.",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Measures ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "77 DAX measures in display folders; product measures under Product\\Funnel, Adoption, A/B test, Referral.",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Numbers in titles ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "are read from the SQL and notebook outputs by the page script, never typed by hand.",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "16.0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "16.0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

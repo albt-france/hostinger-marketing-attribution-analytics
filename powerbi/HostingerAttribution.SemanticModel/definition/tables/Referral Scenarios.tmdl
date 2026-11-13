@@ -1,0 +1,75 @@
+table 'Referral Scenarios'
+	lineageTag: d06c143f-ff4d-56fa-8e79-ae0f0325dd2c
+
+	column reward_rate
+		dataType: double
+		formatString: 0%
+		lineageTag: dd9049d3-0d1e-5ed8-bf8e-fb01cbc81c89
+		summarizeBy: none
+		sourceColumn: reward_rate
+
+	column controls
+		dataType: string
+		lineageTag: 33967b31-9e82-5d64-b9e6-451a397b7724
+		summarizeBy: none
+		sourceColumn: controls
+
+	column incrementality
+		dataType: double
+		formatString: 0%
+		lineageTag: d13209cd-ac68-54a4-9d76-e4b79f701e45
+		summarizeBy: none
+		sourceColumn: incrementality
+
+	column elasticity
+		dataType: double
+		formatString: 0.0
+		lineageTag: 241c7542-c7ba-5fcd-9963-582ec618bcf9
+		summarizeBy: none
+		sourceColumn: elasticity
+
+	column genuine_referrals_year
+		dataType: double
+		formatString: #,0
+		lineageTag: 01a7763a-49b7-59dd-87cd-6df54119b036
+		summarizeBy: none
+		sourceColumn: genuine_referrals_year
+
+	column self_referrals_year
+		dataType: double
+		formatString: #,0
+		lineageTag: 5111e894-2c32-5656-a4d3-de5f113e114e
+		summarizeBy: none
+		sourceColumn: self_referrals_year
+
+	column cost_year_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: 4d005a7e-8994-5aac-84ae-ef431aac9b51
+		summarizeBy: none
+		sourceColumn: cost_year_eur
+
+	column incremental_value_year_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: 6e6f27ee-f3fa-5c28-bcaa-f965715da7d5
+		summarizeBy: none
+		sourceColumn: incremental_value_year_eur
+
+	column net_value_year_eur
+		dataType: double
+		formatString: €#,0
+		lineageTag: 6549c943-090d-50cf-b889-666453b5faaa
+		summarizeBy: none
+		sourceColumn: net_value_year_eur
+
+	partition 'Referral Scenarios' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\referral_scenarios.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"reward_rate", "controls", "incrementality", "elasticity", "genuine_referrals_year", "self_referrals_year", "cost_year_eur", "incremental_value_year_eur", "net_value_year_eur"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"reward_rate", type number}, {"controls", type text}, {"incrementality", type number}, {"elasticity", type number}, {"genuine_referrals_year", type number}, {"self_referrals_year", type number}, {"cost_year_eur", type number}, {"incremental_value_year_eur", type number}, {"net_value_year_eur", type number}}, "en-US")
+				in
+					Typed

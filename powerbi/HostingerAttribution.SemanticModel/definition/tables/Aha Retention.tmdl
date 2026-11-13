@@ -1,0 +1,56 @@
+table 'Aha Retention'
+	lineageTag: 74960339-04ae-547a-b9ca-67f71c76c188
+
+	column bucket_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 543cbf56-4005-5a2c-ab36-803f23ae81d9
+		summarizeBy: none
+		sourceColumn: bucket_order
+
+	column first_campaign
+		dataType: string
+		lineageTag: c02da2cf-6ab4-5ab8-a35d-c26eec6acbc3
+		summarizeBy: none
+		sourceColumn: first_campaign
+		sortByColumn: bucket_order
+
+	column users
+		dataType: int64
+		formatString: #,0
+		lineageTag: da5ca79c-bc63-5870-b0ca-ee4fcd5aa059
+		summarizeBy: none
+		sourceColumn: users
+
+	column share_of_users
+		dataType: double
+		formatString: 0%
+		lineageTag: 15db2cd2-8658-5279-9aa2-6ce1ced2964f
+		summarizeBy: none
+		sourceColumn: share_of_users
+
+	column retention_d30
+		dataType: double
+		formatString: 0%
+		lineageTag: b8a8cb41-fef8-5494-aaa9-4d0a0160918c
+		summarizeBy: none
+		sourceColumn: retention_d30
+
+	column upgrade_rate_60d
+		dataType: double
+		formatString: 0%
+		lineageTag: 6000dc24-42b9-596f-a5ae-22d0a4124ab7
+		summarizeBy: none
+		sourceColumn: upgrade_rate_60d
+
+	partition 'Aha Retention' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\aha_retention.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"bucket_order", "first_campaign", "users", "share_of_users", "retention_d30", "upgrade_rate_60d"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"bucket_order", Int64.Type}, {"first_campaign", type text}, {"users", Int64.Type}, {"share_of_users", type number}, {"retention_d30", type number}, {"upgrade_rate_60d", type number}}, "en-US")
+				in
+					Typed

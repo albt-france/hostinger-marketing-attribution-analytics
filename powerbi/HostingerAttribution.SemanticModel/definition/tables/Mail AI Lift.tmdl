@@ -1,0 +1,53 @@
+table 'Mail AI Lift'
+	lineageTag: a4ef95d9-d13a-5441-b54e-40c0c2d3c5d3
+
+	column segment
+		dataType: string
+		lineageTag: 3cbd16e4-df6b-549b-8069-2a970b2d12b6
+		summarizeBy: none
+		sourceColumn: segment
+
+	column metric
+		dataType: string
+		lineageTag: aca982f2-75f7-58c6-9507-2c90f1f08305
+		summarizeBy: none
+		sourceColumn: metric
+
+	column users
+		dataType: int64
+		formatString: #,0
+		lineageTag: 623d518b-78ec-5396-b820-210f9ba6f6e4
+		summarizeBy: none
+		sourceColumn: users
+
+	column did_lift
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: b586db24-fc0b-5ac0-a2f7-3a70c5920086
+		summarizeBy: none
+		sourceColumn: did_lift
+
+	column ci_low
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: aebae431-77ed-5bab-9cd5-57992a439f53
+		summarizeBy: none
+		sourceColumn: ci_low
+
+	column ci_high
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 8efeeb42-bce5-5696-b1a9-90102ffee496
+		summarizeBy: none
+		sourceColumn: ci_high
+
+	partition 'Mail AI Lift' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\mail_ai_lift.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"segment", "metric", "users", "did_lift", "ci_low", "ci_high"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"segment", type text}, {"metric", type text}, {"users", Int64.Type}, {"did_lift", type number}, {"ci_low", type number}, {"ci_high", type number}}, "en-US")
+				in
+					Typed

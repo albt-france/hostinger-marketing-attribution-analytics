@@ -1,0 +1,102 @@
+table 'Experiment Users'
+	lineageTag: 44752988-b423-5a9e-8fd8-aa9783a95367
+
+	column user_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4f51d858-bb09-50a0-a72a-1a813b8e57f9
+		summarizeBy: none
+		sourceColumn: user_id
+
+	column variant
+		dataType: string
+		lineageTag: 2eed2c0a-d0d2-5de9-bc8a-ad1f5fd45fbd
+		summarizeBy: none
+		sourceColumn: variant
+
+	column assigned_date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: d6b44191-9079-53b1-b475-e7418459bc0e
+		summarizeBy: none
+		sourceColumn: assigned_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column platform
+		dataType: string
+		lineageTag: 0f80e9df-e62e-5bf3-be81-f9bad7e822bc
+		summarizeBy: none
+		sourceColumn: platform
+
+	column country
+		dataType: string
+		lineageTag: ec525090-bbe8-5894-b66a-81d3fba3c363
+		summarizeBy: none
+		sourceColumn: country
+
+	column channel
+		dataType: string
+		lineageTag: aa3f923f-f4a6-598e-a7c3-7f62e313d8bb
+		summarizeBy: none
+		sourceColumn: channel
+
+	column source
+		dataType: string
+		lineageTag: 32ed48ae-c2a6-57af-b0fa-371a5148b315
+		summarizeBy: none
+		sourceColumn: source
+
+	column reached_template
+		dataType: boolean
+		lineageTag: c13567a5-714d-5a4d-9824-9bd3f26f0514
+		summarizeBy: none
+		sourceColumn: reached_template
+
+	column reached_contacts
+		dataType: boolean
+		lineageTag: 11a830eb-546c-5b92-9e27-470a8623f776
+		summarizeBy: none
+		sourceColumn: reached_contacts
+
+	column activated_7d
+		dataType: boolean
+		lineageTag: 5aeb972a-fa71-5c12-abd6-b8c4078ca812
+		summarizeBy: none
+		sourceColumn: activated_7d
+
+	column retained_d30
+		dataType: boolean
+		lineageTag: b4d95982-369d-55e0-822b-87b74bd1ccb6
+		summarizeBy: none
+		sourceColumn: retained_d30
+
+	column mature_d30
+		dataType: boolean
+		lineageTag: 1ef34e33-f08d-5795-b9e8-828d8c439c6d
+		summarizeBy: none
+		sourceColumn: mature_d30
+
+	column upgraded_60d
+		dataType: boolean
+		lineageTag: 16752502-efe3-5b48-9954-5a2ec5ce0441
+		summarizeBy: none
+		sourceColumn: upgraded_60d
+
+	column mature_60d
+		dataType: boolean
+		lineageTag: a3542d4e-e505-54d2-a6e2-bf95ccae619a
+		summarizeBy: none
+		sourceColumn: mature_60d
+
+	partition 'Experiment Users' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\ab_users.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"user_id", "variant", "assigned_date", "platform", "country", "channel", "source", "reached_template", "reached_contacts", "activated_7d", "retained_d30", "mature_d30", "upgraded_60d", "mature_60d"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"user_id", Int64.Type}, {"variant", type text}, {"assigned_date", type date}, {"platform", type text}, {"country", type text}, {"channel", type text}, {"source", type text}, {"reached_template", type logical}, {"reached_contacts", type logical}, {"activated_7d", type logical}, {"retained_d30", type logical}, {"mature_d30", type logical}, {"upgraded_60d", type logical}, {"mature_60d", type logical}}, "en-US")
+				in
+					Typed

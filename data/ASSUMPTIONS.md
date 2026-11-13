@@ -84,3 +84,70 @@ Public facts used for calibration are listed in `SOURCES.md`; everything else be
 | Spend mix | PPC non-brand 51%, SEO 14%, influencers 14%, coupon affiliates 9%, content affiliates 6%, brand ads 4%, e-mail 4% | |
 
 The generator prints these checks at the end of each run.
+
+---
+
+# Product simulation (SIMULATED data)
+
+All product data is **simulated** by `src/generate_product_sim.py` (seed 42), run after `src/generate_sim.py`. It is **not Hostinger data**.
+It uses the **same simulated customers**: same `user_id`, country, device, order date, hosting product and acquisition channel (first click in the 30 days before the order, the rule of `sql/00_staging.sql`), so product use can be cut by marketing channel. Public facts (Reach plans, referral terms) are listed in `SOURCES.md` #14-#23; everything else below is an **assumption**.
+
+## Events (Amplitude-like format)
+| Item | Value | Basis |
+|---|---|---|
+| Table | `sim_product_events`: `event_id`, `user_id`, `device_id`, `event_name`, `event_time`, `product`, `platform`, `country`, `event_properties` (JSON) | Amplitude export format |
+| Reach events | `reach_onboarding_started`, `reach_template_chosen`, `reach_contacts_imported`, `reach_campaign_sent`, `reach_ai_copy_used`, `reach_upgrade` | handoff list |
+| Mail events | `mail_inbox_opened`, `mail_message_sent`, `mail_ai_reply_used`, logged **once per user and day** with a `count` property (daily roll-up, keeps the file small) | assumption |
+| Referral events | `referral_link_shared`, `referral_signup`, `referral_purchase` | handoff list |
+| Volume | 2.26M events: Mail 1.78M, Reach 0.46M, referral 17k | generated |
+| Window | Reach and referrals 1 May 2025 – 31 Oct 2026; Mail 2 Mar – 25 Oct 2026 | assumption (not Hostinger's launch dates) |
+| Latent intent | each customer has an unobserved "intent" (normal); creators +0.30, content sites +0.15, SEO and e-mail +0.10, PPC non-brand −0.15, coupon sites −0.35 | assumption: it drives every Reach step and retention, so the "aha" gap is partly selection |
+
+## Reach onboarding
+| Item | Value | Basis |
+|---|---|---|
+| Who starts onboarding | new customers: 20% (VPS) to 60% (website builder) × channel factor (creators 1.2 … coupon 0.75), a few days after buying; older customers at any time (55% of that); refunded customers ×0.3 | assumption (some plans include Reach for free, SOURCES #17) |
+| Newsletter day | 14 Jul 2026: 1,100 extra older customers start onboarding | assumption |
+| Steps | template chosen (base 74%), contacts imported (62% of those, −0.35 logit in India and Indonesia), first campaign (68% of those), each step more likely with higher intent | assumption |
+| Delays | template ~0.3 day, contacts ~1 day, first campaign ~6 days (shorter with higher intent) | assumption |
+| After the first campaign | weekly churn hazard depends on intent **and** on the aha moment (first campaign within 7 days, odds ×e^−0.9); active weeks send 1+ campaigns, 40% with AI copy | assumption |
+| Built-in causal part of the aha gap | about **16 points** of day-30 retention for users who reach the aha moment (the observed gap is ~44 points: the rest is selection by intent) | generator printout; the analysis can only see the 44-point correlation |
+| Upgrade | 30% of users with more than 100 contacts (above the Starter limit, SOURCES #15), 3% of the others | assumption |
+
+## A/B test
+| Item | Value | Basis |
+|---|---|---|
+| Design | `reach_onboarding_ai_prefill`, users starting onboarding 4 May – 23 Aug 2026, 50/50 | assumption |
+| True effect built in | AI-prefilled first campaign: +0.35 logit on choosing a template, first-campaign delay ×0.75: **+5.0 pts** of 7-day activation on the test users (both outcomes of every user are known to the generator) | assumption |
+| What the test measures | **+2.5 pts**, 95% CI +0.7 to +4.4 (14 July removed). The gap is chance: without the feature, the users drawn into treatment would have activated **2.1 pts less** than the control users. A single test is one random draw; this one is unlucky (about 1 in 100 at this sample size), which is why the decision keeps a holdout to confirm the effect at scale | generator printout vs notebook |
+| Planted bug | on 14 Jul 2026 every mobile user is assigned to control (648 users): sample-ratio mismatch | assumption (the notebook finds it: chi-square p < 0.001, daily z = −19.8) |
+
+## Mail AI replies
+| Item | Value | Basis |
+|---|---|---|
+| Mail users | 5-16% of customers by product (VPS lowest, builder highest), who bought before 2 Mar 2026 | assumption |
+| Rollout | wave 1 US, FR, ES on 1 Jun 2026; wave 2 BR, IN, ID on 3 Aug 2026 | assumption (natural control group) |
+| Adoption | 40% of mobile users, 30% of desktop users (×1.1 website/hosting) adopt AI replies | assumption |
+| True effect built in | adopters on **mobile**: +15% active days and +15% messages; desktop website/hosting: +4% messages; desktop cloud/VPS: none | assumption (the notebook measures +9.5% messages for all mobile users, intention to treat) |
+
+## Referral programme
+| Item | Value | Basis |
+|---|---|---|
+| Reward | 20% of the friend's paid amount, capped at 450 USD (×0.87), voided if refunded, paid after 45 days | **public** (SOURCES #19, #21) |
+| Friend's discount | 20%, counted as a programme cost (revenue given up = paid / 0.8 × 0.2); the marketing tables are not changed | **public** rate (SOURCES #20), accounting = assumption |
+| Referrers | 5% of customers share a link (more with higher intent), 1.7 shares on average | assumption |
+| Referred friends | 3,200 existing simulated orders since 15 May 2025 that arrived by Direct, brand search or SEO with no promo code; referrer from the same country 80% of the time | assumption (keeps refunds and renewals consistent with the marketing part) |
+| Planted self-referrals | **420** second accounts (Direct buyers): link shared, sign-up 1-3 minutes later, purchase within the hour; same payment card 75%, same device 85% | assumption (the SQL flags 431, incl. a few households) |
+| Households | 3% of genuine friends share the referrer's device, 0.5% the card | assumption (false-positive risk) |
+| Scenario (notebook) | genuine referral volume ∝ reward^0.5 or ^1.0; self-referrals ∝ reward^1.5; 30/50/70% of genuine friends truly new | assumption, clearly labelled |
+
+## Plausibility checks (product)
+| Ratio | Simulated | Comment |
+|---|---|---|
+| Customers who start Reach | 35% of all customers (42% of new customers) | |
+| Ordered funnel (30-day window) | template 83%, contacts 47%, first campaign 34% | contact import is the biggest drop |
+| 7-day activation | 24% of starters | |
+| Day-30 retention | 63% (first campaign within 7 days) vs 41% (days 8-30) vs 16% (none) | |
+| Referrals | 3,620 in 18 months, rewards + discounts €115k | |
+
+The generator prints these checks at the end of each run.

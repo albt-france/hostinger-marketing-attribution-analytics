@@ -21,7 +21,7 @@
                   {
                     "value": "Hostinger context  ",
                     "textStyle": {
-                      "fontSize": "15pt",
+                      "fontSize": "14pt",
                       "color": "#0B0B0B",
                       "fontWeight": "bold"
                     }
@@ -29,7 +29,7 @@
                   {
                     "value": "public facts used to calibrate the simulation, hostinger.com",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E"
                     }
                   }
@@ -40,52 +40,52 @@
                   {
                     "value": "Customers  ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "5M+ in 150+ countries.     ",
+                    "value": "5M+ in 150+ countries.   ",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   },
                   {
                     "value": "Plans  ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "paid upfront; Premium $1.99/mo for 48 months, renews at $10.99/mo; VPS and Cloud the same way.     ",
+                    "value": "paid upfront; Premium $1.99/mo for 48 months, renews at $10.99/mo.   ",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   },
                   {
                     "value": "Refunds  ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "30-day money-back guarantee.     ",
+                    "value": "30-day money-back guarantee.   ",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   },
                   {
                     "value": "Affiliates  ",
                     "textStyle": {
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
@@ -93,7 +93,7 @@
                   {
                     "value": "from 40% commission, 30-day cookie, none on 1-month plans or renewals.",
                     "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -102,9 +102,47 @@
               {
                 "textRuns": [
                   {
-                    "value": "",
+                    "value": "Reach  ",
                     "textStyle": {
-                      "fontSize": "6pt",
+                      "fontSize": "12pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "AI e-mail marketing, Starter plan up to 100 recipients.   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Mail  ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "business e-mail with AI replies.   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Referrals  ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "referrer earns 20% of the friend's purchase, the friend gets 20% off, reward paid after 45 days.",
+                    "textStyle": {
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   }
@@ -115,72 +153,15 @@
                   {
                     "value": "How to read  ",
                     "textStyle": {
-                      "fontSize": "15pt",
-                      "color": "#0B0B0B",
-                      "fontWeight": "bold"
-                    }
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "Titles  ",
-                    "textStyle": {
-                      "fontSize": "14pt",
+                      "fontSize": "12pt",
                       "color": "#52514E",
                       "fontWeight": "bold"
                     }
                   },
                   {
-                    "value": "state the conclusion of the page.     ",
+                    "value": "titles state the conclusion · SIMULATED marks generated data · dashed lines mark a threshold · SQL, notebooks and Power BI project in the repository.",
                     "textStyle": {
-                      "fontSize": "15pt",
-                      "color": "#0B0B0B"
-                    }
-                  },
-                  {
-                    "value": "Tag  ",
-                    "textStyle": {
-                      "fontSize": "14pt",
-                      "color": "#52514E",
-                      "fontWeight": "bold"
-                    }
-                  },
-                  {
-                    "value": "SIMULATED marks generated data.     ",
-                    "textStyle": {
-                      "fontSize": "15pt",
-                      "color": "#0B0B0B"
-                    }
-                  },
-                  {
-                    "value": "Dashed lines  ",
-                    "textStyle": {
-                      "fontSize": "14pt",
-                      "color": "#52514E",
-                      "fontWeight": "bold"
-                    }
-                  },
-                  {
-                    "value": "mark break-even or a threshold.     ",
-                    "textStyle": {
-                      "fontSize": "15pt",
-                      "color": "#0B0B0B"
-                    }
-                  },
-                  {
-                    "value": "Code  ",
-                    "textStyle": {
-                      "fontSize": "14pt",
-                      "color": "#52514E",
-                      "fontWeight": "bold"
-                    }
-                  },
-                  {
-                    "value": "SQL, notebook and Power BI project in the repository.",
-                    "textStyle": {
-                      "fontSize": "15pt",
+                      "fontSize": "13pt",
                       "color": "#0B0B0B"
                     }
                   }

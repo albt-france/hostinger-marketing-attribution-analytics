@@ -1,0 +1,224 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "plan",
+  "position": {
+    "x": 1170,
+    "y": 300,
+    "z": 9000,
+    "height": 390,
+    "width": 718,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Test plan, written before launch",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Hypothesis   ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "an AI draft removes the blank page, so more users send a first campaign.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Primary   ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "first campaign within 7 days.   ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#0B0B0B"
+                    }
+                  },
+                  {
+                    "value": "Guardrails   ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "day-30 retention, upgrades in 60 days.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Power   ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "4,074 users per arm in 16 weeks: 2.7 pts detectable at 80% power.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Rules   ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#2A78D6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "sample-ratio check first; one reading at the end, no peeking; segments exploratory (Holm).",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "",
+                    "textStyle": {
+                      "fontSize": "6pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Decision",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Ship to all new Reach users, keep a 5% holdout for 8 weeks to confirm the effect and watch upgrades and novelty (weeks 1-8 vs 9-16: interaction p ≥ 0.18). Add a daily automatic SRM alert.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#52514E"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "16.0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "16.0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

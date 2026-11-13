@@ -1,0 +1,18 @@
+table 'AB Variant'
+	lineageTag: 0b1b72b1-9781-5ceb-bc10-d671f8a1841a
+
+	column variant
+		dataType: string
+		lineageTag: 5236ade6-f305-5083-a8e6-1c76f725cbeb
+		summarizeBy: none
+		sourceColumn: variant
+
+	column variant_label
+		dataType: string
+		lineageTag: 022c9483-0207-5b78-9e3a-745a19c80c8e
+		summarizeBy: none
+		sourceColumn: variant_label
+
+	partition 'AB Variant' = m
+		mode: import
+		source = #table(type table [variant = text, variant_label = text], {{"control", "Blank editor (control)"}, {"treatment", "AI-prefilled first campaign"}})

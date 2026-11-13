@@ -1,0 +1,34 @@
+table 'AB Power'
+	lineageTag: 57655320-f3a4-57d5-93a9-54e96ad519c7
+
+	column mde_points
+		dataType: double
+		formatString: 0.00
+		lineageTag: 57e3181f-327c-5f77-8c89-8b72cdb6f551
+		summarizeBy: none
+		sourceColumn: mde_points
+
+	column users_per_arm
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8711be5b-fefb-56ab-846e-183feed441d1
+		summarizeBy: none
+		sourceColumn: users_per_arm
+
+	column weeks_needed
+		dataType: double
+		formatString: 0.0
+		lineageTag: 2ceb2270-839c-5667-86a8-e1d307704a46
+		summarizeBy: none
+		sourceColumn: weeks_needed
+
+	partition 'AB Power' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\ab_power.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"mde_points", "users_per_arm", "weeks_needed"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"mde_points", type number}, {"users_per_arm", Int64.Type}, {"weeks_needed", type number}}, "en-US")
+				in
+					Typed

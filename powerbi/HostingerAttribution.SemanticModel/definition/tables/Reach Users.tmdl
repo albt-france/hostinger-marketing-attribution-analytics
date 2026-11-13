@@ -1,0 +1,162 @@
+table 'Reach Users'
+	lineageTag: 51dd53e8-f1b8-5873-be03-d3a6501ec271
+
+	column user_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: eb40be24-358e-5c2a-b7d7-cd51cf29a022
+		summarizeBy: none
+		sourceColumn: user_id
+
+	column onboarding_date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: cd14c83b-1d6a-533a-81c1-7a7a2203e41d
+		summarizeBy: none
+		sourceColumn: onboarding_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column onboarding_month
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 44cb52c7-c99d-5e2b-9526-c4d8bc207d3b
+		summarizeBy: none
+		sourceColumn: onboarding_month
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column source
+		dataType: string
+		lineageTag: d6429a9e-454a-594d-87bc-1132f97a7473
+		summarizeBy: none
+		sourceColumn: source
+
+	column platform
+		dataType: string
+		lineageTag: f42bb417-fcf8-5498-aa20-720b17e10f37
+		summarizeBy: none
+		sourceColumn: platform
+
+	column country
+		dataType: string
+		lineageTag: 27d1f59c-4e90-5edc-bdb2-5dc58132eae4
+		summarizeBy: none
+		sourceColumn: country
+
+	column hosting_product
+		dataType: string
+		lineageTag: e69de658-c700-57cf-a8fe-29bd1b2b070a
+		summarizeBy: none
+		sourceColumn: hosting_product
+
+	column channel
+		dataType: string
+		lineageTag: 2a086a73-ea19-563e-b1f8-ceadeb042659
+		summarizeBy: none
+		sourceColumn: channel
+
+	column contacts
+		dataType: int64
+		formatString: #,0
+		lineageTag: ae8307f7-35d2-59a4-b077-11e1e9701b70
+		summarizeBy: none
+		sourceColumn: contacts
+
+	column reached_template
+		dataType: boolean
+		lineageTag: ad0835cd-0b94-56f4-bf4c-d6588c92f953
+		summarizeBy: none
+		sourceColumn: reached_template
+
+	column reached_contacts
+		dataType: boolean
+		lineageTag: 96fc3aea-f556-5533-a987-5060d6638e5e
+		summarizeBy: none
+		sourceColumn: reached_contacts
+
+	column reached_campaign
+		dataType: boolean
+		lineageTag: f3e5cd25-3de7-5667-90df-07ad152d4097
+		summarizeBy: none
+		sourceColumn: reached_campaign
+
+	column days_to_first_campaign
+		dataType: double
+		formatString: 0.0
+		lineageTag: 9cf5c71d-7312-53fc-bbb4-6dbe09fbce67
+		summarizeBy: none
+		sourceColumn: days_to_first_campaign
+
+	column activated_7d
+		dataType: boolean
+		lineageTag: d1ad9d82-6610-5afc-ada7-0e678bc3ba36
+		summarizeBy: none
+		sourceColumn: activated_7d
+
+	column funnel_complete
+		dataType: boolean
+		lineageTag: acbbbf4f-30bd-541b-a7e8-a3b165f792ca
+		summarizeBy: none
+		sourceColumn: funnel_complete
+
+	column adoption_group
+		dataType: string
+		lineageTag: 338a085c-2d64-535b-b4f0-7a5d4b2b7d35
+		summarizeBy: none
+		sourceColumn: adoption_group
+
+	column mature_d7
+		dataType: boolean
+		lineageTag: 2d209526-169d-5b81-989d-6cca34d2deb9
+		summarizeBy: none
+		sourceColumn: mature_d7
+
+	column mature_d30
+		dataType: boolean
+		lineageTag: 3c8cf333-b42d-501e-874e-1ead5e4ca82a
+		summarizeBy: none
+		sourceColumn: mature_d30
+
+	column mature_60d
+		dataType: boolean
+		lineageTag: 0ed7ed89-6f94-52f5-bffb-4b66c5a790e8
+		summarizeBy: none
+		sourceColumn: mature_60d
+
+	column retained_d7
+		dataType: boolean
+		lineageTag: 69d59ae1-f5ba-5e33-8fbe-f46b57992820
+		summarizeBy: none
+		sourceColumn: retained_d7
+
+	column retained_d30
+		dataType: boolean
+		lineageTag: 973e3852-fb1c-5770-93ed-c2859fced5a9
+		summarizeBy: none
+		sourceColumn: retained_d30
+
+	column active_weeks_first_13
+		dataType: int64
+		formatString: 0
+		lineageTag: 226d8a6f-3a83-5cec-b491-298845161678
+		summarizeBy: none
+		sourceColumn: active_weeks_first_13
+
+	column upgraded_60d
+		dataType: boolean
+		lineageTag: ae851672-f2d9-5531-bce8-d839799bb352
+		summarizeBy: none
+		sourceColumn: upgraded_60d
+
+	partition 'Reach Users' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\reach_users.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"user_id", "onboarding_date", "onboarding_month", "source", "platform", "country", "hosting_product", "channel", "contacts", "reached_template", "reached_contacts", "reached_campaign", "days_to_first_campaign", "activated_7d", "funnel_complete", "adoption_group", "mature_d7", "mature_d30", "mature_60d", "retained_d7", "retained_d30", "active_weeks_first_13", "upgraded_60d"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"user_id", Int64.Type}, {"onboarding_date", type date}, {"onboarding_month", type date}, {"source", type text}, {"platform", type text}, {"country", type text}, {"hosting_product", type text}, {"channel", type text}, {"contacts", Int64.Type}, {"reached_template", type logical}, {"reached_contacts", type logical}, {"reached_campaign", type logical}, {"days_to_first_campaign", type number}, {"activated_7d", type logical}, {"funnel_complete", type logical}, {"adoption_group", type text}, {"mature_d7", type logical}, {"mature_d30", type logical}, {"mature_60d", type logical}, {"retained_d7", type logical}, {"retained_d30", type logical}, {"active_weeks_first_13", Int64.Type}, {"upgraded_60d", type logical}}, "en-US")
+				in
+					Typed

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "a8000000000000000000",
+  "displayName": "8 · A/B test: AI-prefilled first campaign",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920
+}

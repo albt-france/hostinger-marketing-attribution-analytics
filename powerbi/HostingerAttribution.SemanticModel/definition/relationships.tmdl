@@ -53,3 +53,55 @@ relationship rel_13
 relationship rel_14
 	fromColumn: 'Incremental Cost'.channel
 	toColumn: Channel.channel
+
+relationship rel_15
+	fromColumn: 'Reach Users'.onboarding_date
+	toColumn: Date.Date
+
+relationship rel_16
+	fromColumn: 'Reach Users'.country
+	toColumn: Country.country
+
+relationship rel_17
+	fromColumn: 'Reach Users'.channel
+	toColumn: Channel.channel
+
+relationship rel_18
+	fromColumn: 'Experiment Users'.variant
+	toColumn: 'AB Variant'.variant
+
+relationship rel_19
+	fromColumn: 'Experiment Users'.assigned_date
+	toColumn: Date.Date
+
+relationship rel_20
+	fromColumn: 'Experiment Users'.country
+	toColumn: Country.country
+
+relationship rel_21
+	fromColumn: Referrals.referral_date
+	toColumn: Date.Date
+
+relationship rel_22
+	fromColumn: Referrals.country
+	toColumn: Country.country
+
+relationship rel_23
+	fromColumn: Referrals.channel
+	toColumn: Channel.channel
+
+relationship rel_24
+	fromColumn: 'Product Daily'.date
+	toColumn: Date.Date
+
+relationship rel_25
+	fromColumn: 'Product Daily'.product
+	toColumn: Product.product
+
+relationship rel_26
+	fromColumn: 'Product Daily'.country
+	toColumn: Country.country
+
+relationship rel_27
+	fromColumn: 'Reach Adoption by Channel'.channel
+	toColumn: Channel.channel

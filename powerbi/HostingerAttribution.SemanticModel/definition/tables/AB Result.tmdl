@@ -1,0 +1,77 @@
+table 'AB Result'
+	lineageTag: 85e0c2e3-22b6-5d98-a89f-3ae89bcc8355
+
+	column metric
+		dataType: string
+		lineageTag: 349a598d-d20a-5f90-ad07-4870563f22e6
+		summarizeBy: none
+		sourceColumn: metric
+		sortByColumn: rank
+
+	column control
+		dataType: double
+		formatString: 0.0%
+		lineageTag: ea0274a2-cdb0-51ce-8beb-b154aff9e6f0
+		summarizeBy: none
+		sourceColumn: control
+
+	column treatment
+		dataType: double
+		formatString: 0.0%
+		lineageTag: b2db3635-75f7-5051-8c24-e5b7c567aa2f
+		summarizeBy: none
+		sourceColumn: treatment
+
+	column diff
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 53ccec8b-828c-5880-89cf-c4517b130f41
+		summarizeBy: none
+		sourceColumn: diff
+
+	column ci_low
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: ace88c04-6771-5d21-abe3-4964c981ee15
+		summarizeBy: none
+		sourceColumn: ci_low
+
+	column ci_high
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 25268f7e-9cae-5319-8a57-f81a35af0e97
+		summarizeBy: none
+		sourceColumn: ci_high
+
+	column p_value
+		dataType: double
+		formatString: 0.000
+		lineageTag: c193c52f-993a-56c7-a2fc-d2bc0b5b28eb
+		summarizeBy: none
+		sourceColumn: p_value
+
+	column p_holm
+		dataType: double
+		formatString: 0.000
+		lineageTag: fe8a31da-c233-58d7-8a84-e46edf066e74
+		summarizeBy: none
+		sourceColumn: p_holm
+
+	column rank
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 357060da-d42c-5fa3-bda8-1a6778a12bee
+		summarizeBy: none
+		sourceColumn: rank
+
+	partition 'AB Result' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\ab_result.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"metric", "control", "treatment", "diff", "ci_low", "ci_high", "p_value", "p_holm", "rank"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"metric", type text}, {"control", type number}, {"treatment", type number}, {"diff", type number}, {"ci_low", type number}, {"ci_high", type number}, {"p_value", type number}, {"p_holm", type number}, {"rank", Int64.Type}}, "en-US")
+				in
+					Typed

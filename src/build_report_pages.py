@@ -1,7 +1,7 @@
 """Generate the Power BI report pages (PBIR format) for powerbi/HostingerAttribution.Report.
 
 Same page grammar as the Rovio case study: title = conclusion, grey subtitle, data tag top right,
-4 to 6 visuals, grey footer with sources. Every number written in a title or text box is read from
+4 to 6 visuals, grey footer with sources. Pages 1-5 = marketing part, pages 6-9 = product part, then a data-model annex. Every number written in a title or text box is read from
 data/output (SQL and notebook results), never typed by hand.
 
 Usage:  python src/build_report_pages.py
@@ -9,6 +9,7 @@ Close Power BI Desktop first (or let it reload): every page is rewritten from th
 """
 import json
 import shutil
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -27,8 +28,9 @@ INK, INK2, MUTED = "#0B0B0B", "#52514E", "#898781"
 BLUE, GREY, LIGHT = "#2A78D6", "#B4B2A9", "#D3D1C7"
 SEQ = {"100": "#CDE2FB", "250": "#86B6EF", "350": "#5598E7", "450": "#2A78D6", "650": "#104281"}
 NEUTRAL, RED, RED_TINT, BLUE_TINT = "#F0EFEC", "#D03B3B", "#F4C7C6", "#B7D3F6"
-AUTHOR = "Independent case study for Hostinger's Marketing Data Analyst role · Not affiliated with Hostinger, no Hostinger data"
+AUTHOR = "Independent case study for Hostinger's Marketing and Product Data Analyst roles · Not affiliated with Hostinger, no Hostinger data"
 SRC_SIM = "SIMULATED data (seed 42), calibrated on public hostinger.com prices, refund and affiliate terms (data/SOURCES.md) - not Hostinger data"
+SRC_PROD = "SIMULATED product events (seed 42), same simulated customers, calibrated on public hostinger.com terms (data/SOURCES.md) - not Hostinger data"
 
 # ---------------------------------------------------------------- numbers from the analysis
 H = pd.read_csv(OUT / "headline.csv", index_col=0)["value"]
@@ -61,6 +63,13 @@ LEAK_SHARE = LEAKED / creators.code_orders.sum()
 HALO = halo["Halo multiplier"] - 1
 MOVED = realloc.loc[realloc.move.str.contains("Creators"), "budget_change_eur_12m"].iloc[0]
 NET = realloc.loc[realloc.move.str.startswith("Net"), "incremental_orders_12m"].iloc[0]
+
+# product part (sql/08-11 and notebooks/product_analysis.ipynb)
+P = pd.read_csv(OUT / "product_headline.csv", index_col=0)["value"]
+def ph(key): return float(P[key])
+N_REACH = len(pd.read_csv(OUT / "reach_users.csv", usecols=["user_id"]))
+N_EVENTS = int(pd.read_csv(OUT / "product_daily.csv", usecols=["events"]).events.sum())
+N_REF = int(ph("referrals"))
 
 N_MEASURES = (ROOT / "powerbi" / "HostingerAttribution.SemanticModel" / "definition" / "tables" / "_Measures.tmdl").read_text(encoding="utf-8").count("	measure ")
 
@@ -299,11 +308,12 @@ pages = []
 
 # ======================= Page 0 - Overview =======================
 p = Page("a0000000000000000000", "Overview")
-p.text("title", 32, 20, 1500, 56, [[("Hostinger marketing attribution: which channels and creators bring profitable customers?", 24, INK, True)]])
+p.text("title", 32, 20, 1500, 56, [[("Hostinger marketing & product analytics: profitable channels, product adoption and experiments", 24, INK, True)]])
 p.text("tag", 1540, 28, 348, 40, [[("OVERVIEW", 10, INK2, True)]])
 p.text("conclusion", 32, 76, 1856, 64, [[(
-    "Independent case study for Hostinger's Marketing Data Analyst role: five questions for the Affiliates, Influencers, PPC, SEO "
-    "and Product Marketing teams, worked end to end with SQL (DuckDB), Python and Power BI on SIMULATED data calibrated on hostinger.com.", 13, INK2, False)]])
+    "Independent case study for Hostinger's Marketing and Product Data Analyst roles: seven questions for the Affiliates, Influencers, PPC, SEO, "
+    "Product Marketing and product teams (Reach, Mail, referral programme), worked end to end with SQL (DuckDB), Python and Power BI "
+    "on SIMULATED data calibrated on hostinger.com.", 13, INK2, False)]])
 heroes = [
     (f"{pct(h('coupon_share_last_click'))} → {pct(h('coupon_share_markov'))}",
      f"of sales credited to coupon sites by last click vs data-driven attribution; {pct(h('coupon_cart_already'))} of their buyers already had a cart",
@@ -326,43 +336,48 @@ y2 = TOP + hh + GAP
 (x1, w1), (x2, w2) = cols(2)
 BH = 430
 p.text("questions", x1, y2, w1, BH, [
-    [("Business questions", 22, INK, True)],
-    [("", 10, INK, False)],
-    [("1 · Efficiency   ", 16, BLUE, True), ("What does a customer cost per channel, and which channel pays back?", 16, INK, False)],
-    [("2 · Attribution   ", 16, BLUE, True), ("What changes when the attribution model changes?", 16, INK, False)],
-    [("3 · Partners   ", 16, BLUE, True), ("Which creators and affiliates are really worth their price?", 16, INK, False)],
-    [("4 · Quality   ", 16, BLUE, True), ("Do the customers of each channel stay and renew?", 16, INK, False)],
-    [("5 · Budget   ", 16, BLUE, True), ("Does spend create sales, and where should the next euro go?", 16, INK, False)],
-    [("", 10, INK, False)],
-    [("Recommendation: ", 16, INK, True),
+    [("Business questions", 20, INK, True), ("   marketing & product analytics", 15, INK2, False)],
+    [("", 6, INK, False)],
+    [("1 · Efficiency   ", 14, BLUE, True), ("What does a customer cost per channel, and which channel pays back?", 14, INK, False)],
+    [("2 · Attribution   ", 14, BLUE, True), ("What changes when the attribution model changes?", 14, INK, False)],
+    [("3 · Partners   ", 14, BLUE, True), ("Which creators and affiliates are really worth their price?", 14, INK, False)],
+    [("4 · Quality   ", 14, BLUE, True), ("Do the customers of each channel stay and renew?", 14, INK, False)],
+    [("5 · Budget   ", 14, BLUE, True), ("Does spend create sales, and where should the next euro go?", 14, INK, False)],
+    [("6 · Adoption   ", 14, BLUE, True), ("Where do new Reach users drop out, and what is a successful adoption? (pages 6-7)", 14, INK, False)],
+    [("7 · Experiments   ", 14, BLUE, True), ("Does the AI-prefilled campaign work, and is the referral reward worth it? (pages 8-9)", 14, INK, False)],
+    [("", 6, INK, False)],
+    [("Marketing: ", 13, INK, True),
      (f"steer budget on 12-month net value and incrementality, not last-click orders. Trim PPC non-brand by 20%, stop paying "
-      f"coupon commission when the cart was already started, and move the {eur_k(MOVED)} to creators "
-      f"({NET:+,.0f} orders a year at the same budget). Keep 'hostinger' search ads only where competitors bid on the brand.", 15, INK2, False)],
+      f"coupon commission when the cart was already started, move the {eur_k(MOVED)} to creators "
+      f"({NET:+,.0f} orders a year at the same budget).", 13, INK2, False)],
+    [("Product: ", 13, INK, True),
+     ("fix the contacts-import step, ship the AI-prefilled first campaign with a holdout, block self-referrals before touching the reward rate.", 13, INK2, False)],
 ], boxed=True)
 p.text("data", x2, y2, w2, BH, [
-    [("Data & methods", 22, INK, True)],
-    [("", 10, INK, False)],
-    [("SIMULATED   ", 13, INK2, True), (f"30 months, 6 countries, {N_VISITORS / 1e6:.1f}M visitors, {N_TOUCH / 1e6:.1f}M touchpoints, {N_ORDERS:,} orders, generated in Python (seed 42). Not Hostinger data.", 15, INK, False)],
-    [("PUBLIC   ", 13, INK2, True), ("Hostinger prices and renewal prices, 30-day money-back guarantee, affiliate terms (hostinger.com, 10 Nov 2026).", 15, INK, False)],
-    [("SQL   ", 13, INK2, True), ("paths, 5 rule-based models (window functions), censoring-safe customer value, scorecards, data-quality checks.", 15, INK, False)],
-    [("Python   ", 13, INK2, True), ("Markov removal effect, geo-test difference-in-differences with bootstrap, video event study, response curves.", 15, INK, False)],
-    [("Power BI   ", 13, INK2, True), (f"star schema, {N_MEASURES} DAX measures, an attribution-model switch on the efficiency page.", 15, INK, False)],
-    [("AI   ", 13, INK2, True), ("I used Claude Code to write the scripts efficiently. The decisions are mine: the questions, "
-                               "the data design and assumptions, the methods, the checks and the report build.", 14, INK2, False)],
+    [("Data & methods", 20, INK, True)],
+    [("", 6, INK, False)],
+    [("SIMULATED   ", 12, INK2, True), (f"30 months, 6 countries, {N_VISITORS / 1e6:.1f}M visitors, {N_TOUCH / 1e6:.1f}M touchpoints, {N_ORDERS:,} orders; "
+                                       f"for the same customers {N_EVENTS / 1e6:.1f}M product events (Amplitude format), {N_REACH:,} Reach users, "
+                                       f"one A/B test, {N_REF:,} referrals (Python, seed 42). Not Hostinger data.", 13, INK, False)],
+    [("PUBLIC   ", 12, INK2, True), ("Hostinger prices, 30-day money-back guarantee, affiliate terms (10 Nov 2026); Reach plans and referral terms (13 Nov 2026).", 13, INK, False)],
+    [("SQL   ", 12, INK2, True), ("paths, 5 attribution models, censoring-safe customer value and retention, ordered funnels, test checks (window functions).", 13, INK, False)],
+    [("Python   ", 12, INK2, True), ("Markov, geo-test and rollout difference-in-differences, A/B test (power, sample-ratio check, z-test, bootstrap), scenarios.", 13, INK, False)],
+    [("Power BI   ", 12, INK2, True), (f"star schema shared by both parts, {N_MEASURES} DAX measures, an attribution-model switch.", 13, INK, False)],
+    [("AI   ", 12, INK2, True), ("AI-assisted workflow: I used Claude, mainly to write scripts faster. I drove the project: I defined the questions, "
+                               "chose and validated the data sources, made the analytical decisions and checked every result.", 13, INK2, False)],
 ], boxed=True)
 y3 = y2 + BH + GAP
 p.text("howto", L, y3, W, BOT - y3, [
-    [("Hostinger context  ", 15, INK, True), ("public facts used to calibrate the simulation, hostinger.com", 13, INK2, False)],
-    [("Customers  ", 13, INK2, True), ("5M+ in 150+ countries.     ", 14, INK, False),
-     ("Plans  ", 13, INK2, True), ("paid upfront; Premium $1.99/mo for 48 months, renews at $10.99/mo; VPS and Cloud the same way.     ", 14, INK, False),
-     ("Refunds  ", 13, INK2, True), ("30-day money-back guarantee.     ", 14, INK, False),
-     ("Affiliates  ", 13, INK2, True), ("from 40% commission, 30-day cookie, none on 1-month plans or renewals.", 14, INK, False)],
-    [("", 6, INK, False)],
-    [("How to read  ", 15, INK, True)],
-    [("Titles  ", 14, INK2, True), ("state the conclusion of the page.     ", 15, INK, False),
-     ("Tag  ", 14, INK2, True), ("SIMULATED marks generated data.     ", 15, INK, False),
-     ("Dashed lines  ", 14, INK2, True), ("mark break-even or a threshold.     ", 15, INK, False),
-     ("Code  ", 14, INK2, True), ("SQL, notebook and Power BI project in the repository.", 15, INK, False)],
+    [("Hostinger context  ", 14, INK, True), ("public facts used to calibrate the simulation, hostinger.com", 12, INK2, False)],
+    [("Customers  ", 12, INK2, True), ("5M+ in 150+ countries.   ", 13, INK, False),
+     ("Plans  ", 12, INK2, True), ("paid upfront; Premium $1.99/mo for 48 months, renews at $10.99/mo.   ", 13, INK, False),
+     ("Refunds  ", 12, INK2, True), ("30-day money-back guarantee.   ", 13, INK, False),
+     ("Affiliates  ", 12, INK2, True), ("from 40% commission, 30-day cookie, none on 1-month plans or renewals.", 13, INK, False)],
+    [("Reach  ", 12, INK2, True), ("AI e-mail marketing, Starter plan up to 100 recipients.   ", 13, INK, False),
+     ("Mail  ", 12, INK2, True), ("business e-mail with AI replies.   ", 13, INK, False),
+     ("Referrals  ", 12, INK2, True), ("referrer earns 20% of the friend's purchase, the friend gets 20% off, reward paid after 45 days.", 13, INK, False)],
+    [("How to read  ", 12, INK2, True), ("titles state the conclusion · SIMULATED marks generated data · dashed lines mark a threshold · "
+                                        "SQL, notebooks and Power BI project in the repository.", 13, INK, False)],
 ], boxed=True)
 p.footer("Sources listed in data/SOURCES.md, assumptions in data/ASSUMPTIONS.md")
 pages.append(p)
@@ -604,6 +619,263 @@ p.text("recommendations", c3[2][0], y, c3[2][1], BOT - y, [
       "brand-ad test by country with competitor-bid monitoring; refund-rate alert per partner.", 13, INK2, False)],
 ], boxed=True)
 p.footer(SRC_SIM + "   ·   DiD = difference-in-differences, bootstrap 5,000 resamples of weeks")
+pages.append(p)
+
+
+# ======================= Page 6 - Reach onboarding funnel =======================
+p = Page("a6000000000000000000", "6 · Reach onboarding funnel")
+lost_share = 1 - ph("contacts_step_conversion")
+p.header(f"{pct(lost_share)} of Reach users who pick a template never import contacts: the biggest leak in onboarding",
+         f"Of {ph('funnel_starters'):,.0f} users who started Hostinger Reach onboarding (30-day window over), {pct(ph('funnel_template_rate'))} chose a template, "
+         f"{pct(ph('funnel_contacts_rate'))} imported contacts and {pct(ph('funnel_campaign_rate'))} sent a first campaign; contact import loses "
+         f"{ph('contacts_step_lost'):,.0f} users, more in India and Indonesia. Marketing link: per 100 new customers, creators bring "
+         f"{100 * ph('activated_per_customer_influencers'):.0f} users who reach the aha moment, PPC non-brand {100 * ph('activated_per_customer_ppc_nb'):.0f}, "
+         f"coupon sites {100 * ph('activated_per_customer_coupon'):.0f}.",
+         "SIMULATED DATA")
+y = kpi_row(p, [("Reach Starters", "Started onboarding (30-day window over)"), ("Template Rate", "Chose a template"),
+                ("Contacts Rate", "Imported contacts"), ("First Campaign Rate", "Sent a first campaign (30 days)"),
+                ("Activation Rate 7d", "First campaign within 7 days")])
+h1 = 400
+(xa, wa), (xb, wb) = cols(2)
+fu = agg("Reach Funnel", "users")
+p.chart("funnel", "funnel", xa, y, wa, h1,
+        {"Category": [C("Reach Funnel", "step")], "Y": [fu]},
+        "Ordered funnel, 30-day conversion window (users at each step)",
+        {"dataPoint": [{"properties": {"fill": color(BLUE)}}], "labels": data_labels(INK)},
+        labels={qref(fu): "Users"})
+apc = meas("Activated per 100 Customers")
+p.chart("adoptionByChannel", "clusteredBarChart", xb, y, wb, h1,
+        {"Category": [C("Channel", "channel")], "Y": [apc]},
+        "Per 100 new customers of each acquisition channel: users who send a first Reach campaign within 7 days",
+        no_legend({"dataPoint": [{"properties": {"fill": color(BLUE)}}], "labels": data_labels()}),
+        labels={qref(apc): "Activated per 100 customers"}, sort=(apc, "Descending"),
+        filters=[flt("Channel", "channel", ["Email", "Unattributed"], negate=True)])
+y += h1 + GAP
+p.chart("stepTable", "tableEx", xa, y, wa, BOT - y,
+        {"Values": [C("Reach Funnel", "step"), C("Reach Funnel", "users"), C("Reach Funnel", "conversion_from_previous"),
+                    C("Reach Funnel", "users_lost"), C("Reach Funnel", "median_hours_from_previous")]},
+        "Step by step: conversion from the previous step and median time it takes",
+        table_style([bg_rule(C("Reach Funnel", "conversion_from_previous"), RED_TINT, BLUE_TINT)]),
+        labels={"Reach Funnel.step": "Step", "Reach Funnel.users": "Users", "Reach Funnel.conversion_from_previous": "From previous step",
+                "Reach Funnel.users_lost": "Users lost", "Reach Funnel.median_hours_from_previous": "Median hours from previous"},
+        sort=(C("Reach Funnel", "users"), "Descending"))
+ctry = [C("Country", "country_name")] + Ms("Reach Starters", "Template Rate", "Contacts Rate", "First Campaign Rate", "Activation Rate 7d")
+p.chart("countryTable", "tableEx", xb, y, wb, BOT - y, {"Values": ctry},
+        "Funnel by country (red = weaker contact import)",
+        table_style([bg_rule(meas("Contacts Rate"), RED_TINT, BLUE_TINT)]),
+        labels={"Country.country_name": "Country", "_Measures.Reach Starters": "Starters", "_Measures.Template Rate": "Template",
+                "_Measures.Contacts Rate": "Contacts", "_Measures.First Campaign Rate": "First campaign", "_Measures.Activation Rate 7d": "Within 7 days"},
+        sort=(meas("Contacts Rate"), "Descending"))
+p.footer(SRC_PROD + "   ·   sql/08")
+pages.append(p)
+
+# ======================= Page 7 - Defining product adoption =======================
+p = Page("a7000000000000000000", "7 · Defining product adoption")
+p.header(f"Adoption = first campaign within 7 days: {pct(ph('retention_d30_aha'))} still active at day 30, vs {pct(ph('retention_d30_late'))} for later senders",
+         f"Day-30 retention is flat for a first campaign on day 0-1, 2-3 or 4-7 and falls after day 7, so adoption is defined there; "
+         f"{pct(ph('activated_7d_rate'))} of starters reach it. The {100 * ph('aha_gap'):.0f}-point gap holds in every channel, platform and product, but it is a "
+         f"correlation (motivated users are faster and more loyal): an encouragement test would measure the causal part. "
+         f"Hostinger Mail: AI replies lift messages sent by {ph('mail_mobile_lift'):+.0%} for mobile users only.",
+         "SIMULATED DATA")
+y = kpi_row(p, [("Activation Rate 7d", "Adopted: first campaign within 7 days"), ("Retention D30", "Active at day 30, all starters"),
+                ("Retention D30 Adopters", "Active at day 30, adopters"), ("Upgrade Rate 60d", "Upgraded within 60 days")])
+h1 = 400
+(xa, wa), (xb, wb) = cols(2)
+ar = agg("Aha Retention", "retention_d30")
+p.chart("ahaRetention", "clusteredColumnChart", xa, y, wa, h1,
+        {"Category": [C("Aha Retention", "first_campaign")], "Y": [ar]},
+        "Day-30 retention by the day of the first campaign (users with 35 days of history)",
+        no_legend({"dataPoint": [{"properties": {"fill": color(BLUE)}}], "labels": data_labels()}),
+        labels={qref(ar): "Day-30 retention"}, sort=(C("Aha Retention", "first_campaign"), "Ascending"))
+rw = meas("Retention by Week")
+p.chart("adoptionCurve", "lineChart", xb, y, wb, h1,
+        {"Category": [C("Adoption Curve", "week")], "Y": [rw], "Series": [C("Adoption Curve", "adoption_group")]},
+        "Share of users active each week after the start, by adoption group (censoring-safe)",
+        {"dataPoint": [value_color("Adoption Curve", "adoption_group", "First campaign within 7 days", BLUE),
+                       value_color("Adoption Curve", "adoption_group", "First campaign on days 8-30", GREY),
+                       value_color("Adoption Curve", "adoption_group", "No campaign in 30 days", INK)],
+         "legend": [{"properties": {"show": lit(True), "position": lit("Top")}}]},
+        labels={qref(rw): "Active that week"})
+y += h1 + GAP
+p.text("definition", xa, y, wa, BOT - y, [
+    [("Proposed definition of a successful Reach adoption", 16, INK, True)],
+    [("Leading, week 1   ", 13, BLUE, True), ("first campaign within 7 days of the start: predicts retention, early enough to act on, moved by onboarding.", 13, INK, False)],
+    [("Habit, week 5   ", 13, BLUE, True), ("a core action in days 28-34 (campaign, AI copy, template, contacts).", 13, INK, False)],
+    [("Value, month 2   ", 13, BLUE, True), ("upgrade to a paid plan within 60 days (the free Starter plan stops at 100 recipients).", 13, INK, False)],
+    [("", 6, INK, False)],
+    [("Proving causality   ", 13, INK, True), ("randomise a strong push to the first campaign (contacts-import assistant + day-2 reminder) "
+                                               "and compare retention by assigned group (intention to treat).", 13, INK2, False)],
+], boxed=True)
+ml = meas("Mail AI Lift")
+p.chart("mailLift", "clusteredBarChart", xb, y, wb, BOT - y,
+        {"Category": [C("Mail AI Lift", "segment")], "Y": [ml]},
+        "Hostinger Mail: change in messages sent per user after AI replies (wave 1 vs wave 2, difference-in-differences)",
+        no_legend({"dataPoint": [{"properties": {"fill": color(BLUE)}}], "labels": data_labels()}),
+        labels={qref(ml): "Lift in messages sent"}, sort=(ml, "Descending"),
+        filters=[flt("Mail AI Lift", "metric", ["Messages sent per week"])])
+p.footer(SRC_PROD + "   ·   sql/09, product notebook §2-3")
+pages.append(p)
+
+# ======================= Page 8 - A/B test =======================
+p = Page("a8000000000000000000", "8 · A/B test: AI-prefilled first campaign")
+p.header(f"AI-prefilled first campaign: {100 * ph('ab_effect'):+.1f} pts of 7-day activation once a broken test day is removed",
+         f"Plan fixed before launch: primary metric first campaign within 7 days, 16 weeks, minimum detectable effect {100 * ph('ab_mde'):.1f} pts. "
+         f"The sample-ratio check failed (p < 0.001): on 14 July every mobile user went to control. Without that day (p = {ph('ab_srm_p_clean'):.2f}) "
+         f"activation rises from {pct(ph('ab_control'), 1)} to {pct(ph('ab_treatment'), 1)} (95% CI {100 * ph('ab_ci_low'):+.1f} to {100 * ph('ab_ci_high'):+.1f} pts, "
+         f"p = {ph('ab_p_value'):.3f}); keeping it would have reported {100 * ph('ab_effect_with_bad_day'):+.1f} pts. Upgrades dip {-100 * ph('ab_upgrade_diff'):.1f} pts "
+         f"(p = {ph('ab_upgrade_p_holm'):.2f} after correction): ship with a holdout.",
+         "SIMULATED DATA")
+y = kpi_row(p, [("Test Users", "Users in the test (14 July removed)"), ("Control Activation", "Control: blank editor"),
+                ("Treatment Activation", "Treatment: AI-prefilled campaign"), ("Test Effect", "Effect, points")])
+h1 = 390
+lw = W * 0.6
+cu, tu = meas("Control Users per Day"), meas("Treatment Users per Day")
+p.chart("dailyAssignment", "clusteredColumnChart", L, y, lw, h1,
+        {"Category": [C("AB Daily", "assigned_date")], "Y": [cu, tu]},
+        "Users assigned per day: on 14 July (newsletter day) every mobile user went to control",
+        {"dataPoint": [series_color(cu, GREY), series_color(tu, BLUE)],
+         "legend": [{"properties": {"show": lit(True), "position": lit("Top")}}]},
+        labels={qref(cu): "Control", qref(tu): "Treatment"})
+rx = L + lw + GAP
+p.text("plan", rx, y, R - rx, h1, [
+    [("Test plan, written before launch", 16, INK, True)],
+    [("Hypothesis   ", 12, BLUE, True), ("an AI draft removes the blank page, so more users send a first campaign.", 12, INK, False)],
+    [("Primary   ", 12, BLUE, True), ("first campaign within 7 days.   ", 12, INK, False),
+     ("Guardrails   ", 12, BLUE, True), ("day-30 retention, upgrades in 60 days.", 12, INK, False)],
+    [("Power   ", 12, BLUE, True), (f"{ph('ab_n_available_per_arm'):,.0f} users per arm in 16 weeks: {100 * ph('ab_mde'):.1f} pts detectable at 80% power.", 12, INK, False)],
+    [("Rules   ", 12, BLUE, True), ("sample-ratio check first; one reading at the end, no peeking; segments exploratory (Holm).", 12, INK, False)],
+    [("", 6, INK, False)],
+    [("Decision", 16, INK, True)],
+    [("Ship to all new Reach users, keep a 5% holdout for 8 weeks to confirm the effect and watch upgrades and novelty "
+      f"(weeks 1-8 vs 9-16: interaction p ≥ {ph('ab_interaction_p_min'):.2f}). Add a daily automatic SRM alert.", 12, INK2, False)],
+], boxed=True)
+y += h1 + GAP
+res = [C("AB Result", c) for c in ("metric", "control", "treatment", "diff", "ci_low", "ci_high", "p_value", "p_holm")]
+p.chart("results", "tableEx", L, y, lw, BOT - y, {"Values": res},
+        "Results on the clean sample (95% CI; p_holm = corrected for the 4 secondary metrics)",
+        table_style([bg_rule(C("AB Result", "diff"), RED_TINT, BLUE_TINT, NEUTRAL, 0)], font=11),
+        labels={"AB Result.metric": "Metric", "AB Result.control": "Control", "AB Result.treatment": "Treatment",
+                "AB Result.diff": "Effect", "AB Result.ci_low": "CI low", "AB Result.ci_high": "CI high",
+                "AB Result.p_value": "p", "AB Result.p_holm": "p (Holm)"},
+        sort=(C("AB Result", "metric"), "Ascending"))
+un = meas("Users per Arm Needed")
+p.chart("power", "lineChart", rx, y, R - rx, BOT - y,
+        {"Category": [C("AB Power", "mde_points")], "Y": [un]},
+        "Users per arm needed vs effect to detect, in points (dashed = 16 weeks of traffic)",
+        no_legend({"dataPoint": [{"properties": {"fill": color(BLUE)}}],
+                   "y1AxisReferenceLine": [ref_line(float(round(ph("ab_n_available_per_arm"))), "16 weeks")]}),
+        labels={qref(un): "Users per arm"})
+p.footer(SRC_PROD + "   ·   sql/10, product notebook §1")
+pages.append(p)
+
+# ======================= Page 9 - Referral programme economics =======================
+p = Page("a9000000000000000000", "9 · Referral programme economics")
+gain = ph("referral_net_controls") - ph("referral_net_no_controls")
+p.header(f"Self-referrals take {pct(ph('self_referral_cost_share'))} of the referral budget: block them before touching the reward rate",
+         f"{N_REF:,} referrals cost {eur_k(ph('referral_cost_eur'))}: 20% reward to the referrer plus the friend's 20% discount (public terms). It pays back only "
+         f"if {pct(ph('referral_break_even_incrementality'))} of referred friends would not have bought otherwise. {ph('self_referrals_flagged'):,.0f} referrals "
+         f"({pct(ph('self_referral_share'), 1)}) look like customers referring a second account (same card, or same device and sign-up 2 minutes after the link). "
+         f"Scenario (labelled assumptions): blocking them adds {eur_k(gain)} a year; the best reward rate needs a reward test.",
+         "SIMULATED DATA")
+y = kpi_row(p, [("Referral Count", "Referrals, May 2025 - Oct 2026"), ("Referral Programme Cost", "Rewards + friend discounts"),
+                ("Break-even Incrementality", "Friends who must be truly new"), ("Self-referral Share", "Flagged as self-referrals")])
+h1 = 400
+(xa, wa), (xb, wb) = cols(2)
+bc, bv = meas("Band Programme Cost"), meas("Band Value 12m")
+p.chart("bands", "clusteredColumnChart", xa, y, wa, h1,
+        {"Category": [C("Referral Bands", "reward_band")], "Y": [bc, bv]},
+        "By reward size: programme cost (grey) vs 12-month value of genuine friends (blue), EUR",
+        {"dataPoint": [series_color(bc, GREY), series_color(bv, BLUE)], "labels": data_labels(),
+         "legend": [{"properties": {"show": lit(True), "position": lit("Top")}}]},
+        labels={qref(bc): "Programme cost", qref(bv): "12-month value (genuine friends)"},
+        sort=(C("Referral Bands", "reward_band"), "Ascending"))
+sn = meas("Scenario Net Value")
+p.chart("scenario", "lineChart", xb, y, wb, h1,
+        {"Category": [C("Referral Scenarios", "reward_rate")], "Y": [sn], "Series": [C("Referral Scenarios", "controls")]},
+        "Scenario: net value per year by reward rate (assumed: 50% of friends truly new, elasticity 0.5)",
+        {"dataPoint": [value_color("Referral Scenarios", "controls", "Self-referral blocking", BLUE),
+                       value_color("Referral Scenarios", "controls", "No controls", GREY)],
+         "legend": [{"properties": {"show": lit(True), "position": lit("Top")}}],
+         "y1AxisReferenceLine": [ref_line(0.0, "Break-even")]},
+        labels={qref(sn): "Net value per year (EUR)"},
+        filters=[flt("Referral Scenarios", "incrementality", [0.5]), flt("Referral Scenarios", "elasticity", [0.5])])
+y += h1 + GAP
+p.chart("fraudRules", "tableEx", xa, y, wa, BOT - y,
+        {"Values": [C("Referrals", "fraud_check")] + Ms("Referral Count", "Referral Reward Cost", "Referral Programme Cost", "Median Minutes Link to Sign-up")},
+        "Self-referral checks: what each rule catches",
+        table_style(),
+        labels={"Referrals.fraud_check": "Check", "_Measures.Referral Count": "Referrals", "_Measures.Referral Reward Cost": "Rewards",
+                "_Measures.Referral Programme Cost": "Rewards + discounts", "_Measures.Median Minutes Link to Sign-up": "Median minutes link → sign-up"},
+        sort=(meas("Referral Count"), "Descending"))
+cr, sr = meas("Clean Referrals"), meas("Self-referral Count")
+p.chart("monthly", "columnChart", xb, y, wb, BOT - y,
+        {"Category": [C("Date", "Month")], "Y": [cr, sr]},
+        "Referrals per month: clean (blue) and flagged self-referrals (red)",
+        {"dataPoint": [series_color(cr, BLUE), series_color(sr, RED)],
+         "legend": [{"properties": {"show": lit(True), "position": lit("Top")}}]},
+        labels={qref(cr): "Clean", qref(sr): "Self-referral"})
+p.footer(SRC_PROD + "   ·   sql/11, product notebook §4")
+pages.append(p)
+
+# ======================= Annex - Data model =======================
+p = Page("aa000000000000000000", "A · Data model")
+p.header("One star schema for both parts: shared Date, Channel and Country dimensions",
+         "Annex. The Power BI model is written as code (src/build_tmdl.py, TMDL) and the pages as PBIR (src/build_report_pages.py). Facts read the CSV outputs of the "
+         "SQL files and notebooks; small output tables feed single charts. The shared dimensions let a product metric be cut by the acquisition channel of the customer.",
+         "ANNEX")
+c3 = cols(3)
+hb = 520
+p.text("facts", c3[0][0], TOP, c3[0][1], hb, [
+    [("Fact tables", 18, INK, True)],
+    [("", 6, INK, False)],
+    [("Marketing", 14, BLUE, True)],
+    [("Orders  ", 13, INK, True), ("one row per order: paid, refunded, renewals, 30-day / 12-month value", 13, INK2, False)],
+    [("Attribution Credits  ", 13, INK, True), ("order × model × channel credit (6 models)", 13, INK2, False)],
+    [("Spend  ", 13, INK, True), ("day × channel × campaign", 13, INK2, False)],
+    [("", 6, INK, False)],
+    [("Product", 14, BLUE, True)],
+    [("Reach Users  ", 13, INK, True), ("one row per Reach user: funnel steps, aha moment, retention, upgrade", 13, INK2, False)],
+    [("Experiment Users  ", 13, INK, True), ("one row per user in the A/B test, with every test metric", 13, INK2, False)],
+    [("Referrals  ", 13, INK, True), ("one row per referral: reward, discount, friend's value, fraud checks", 13, INK2, False)],
+    [("Product Daily  ", 13, INK, True), (f"{N_EVENTS / 1e6:.1f}M Amplitude-style events rolled up by day, event, platform, country", 13, INK2, False)],
+], boxed=True)
+p.text("dims", c3[1][0], TOP, c3[1][1], hb, [
+    [("Dimensions", 18, INK, True)],
+    [("", 6, INK, False)],
+    [("Shared by both parts", 14, BLUE, True)],
+    [("Date  ", 13, INK, True), ("1 May 2024 - 31 Oct 2026, month sort key", 13, INK2, False)],
+    [("Channel  ", 13, INK, True), ("8 acquisition channels + Unattributed, grouped", 13, INK2, False)],
+    [("Country  ", 13, INK, True), ("6 countries, geo-test group", 13, INK2, False)],
+    [("", 6, INK, False)],
+    [("Marketing", 14, BLUE, True)],
+    [("Attribution Model, Creator, Affiliate", 13, INK2, False)],
+    [("", 6, INK, False)],
+    [("Product", 14, BLUE, True)],
+    [("Product  ", 13, INK, True), ("Reach, Mail, Referral", 13, INK2, False)],
+    [("AB Variant  ", 13, INK, True), ("control, treatment", 13, INK2, False)],
+], boxed=True)
+p.text("rules", c3[2][0], TOP, c3[2][1], hb, [
+    [("Modelling rules", 18, INK, True)],
+    [("", 6, INK, False)],
+    [("Single-direction ", 13, INK, True), ("relationships, dimension → fact, no many-to-many.", 13, INK2, False)],
+    [("Censoring-safe ", 13, INK, True), ("rates: a user counts only once the window is over (funnel_complete, mature_d30, ...).", 13, INK2, False)],
+    [("Test data ", 13, INK, True), ("A/B measures exclude 14 July, the day of the sample-ratio mismatch.", 13, INK2, False)],
+    [("Measures ", 13, INK, True), (f"{N_MEASURES} DAX measures in display folders; product measures under Product\\Funnel, Adoption, A/B test, Referral.", 13, INK2, False)],
+    [("Numbers in titles ", 13, INK, True), ("are read from the SQL and notebook outputs by the page script, never typed by hand.", 13, INK2, False)],
+], boxed=True)
+# relationships, read from the model builder so the list never drifts from the model
+sys.path.insert(0, str(ROOT / "src"))
+from build_tmdl import RELATIONSHIPS  # noqa: E402
+rel = {}
+for fact, _, dim, _ in RELATIONSHIPS:
+    rel.setdefault(fact, []).append(dim)
+items = [[(f"{f}  ", 12, INK, True), ("→ " + ", ".join(d) + "   ", 12, INK2, False)] for f, d in rel.items()]
+half = (len(items) + 1) // 2
+yr = TOP + hb + GAP
+(xl, wl), (xr, wr) = cols(2)
+p.text("relationships", xl, yr, wl, BOT - yr, [[(f"Relationships ({len(RELATIONSHIPS)}), fact → dimensions", 16, INK, True)]] + items[:half], boxed=True)
+p.text("relationships2", xr, yr, wr, BOT - yr, [[("", 16, INK, True)]] + items[half:], boxed=True)
+p.footer("Model: powerbi/HostingerAttribution.SemanticModel (TMDL) · Report: powerbi/HostingerAttribution.Report (PBIR)")
 pages.append(p)
 
 # ---------------------------------------------------------------- write

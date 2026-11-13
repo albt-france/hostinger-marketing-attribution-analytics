@@ -8,6 +8,7 @@ __pycache__/
 # large generated files: rebuild with src/generate_sim.py, src/run_sql.py and the notebook
 data/clean/*.csv
 data/clean/sim_touchpoints.parquet
+data/clean/sim_product_events.parquet
 data/output/attribution_rule_based.csv
 data/output/attribution_credits.csv
 data/output/order_value.csv

@@ -1,0 +1,63 @@
+table 'Reach Funnel'
+	lineageTag: 858bbdca-27a3-5f71-89c3-f48ebb63d80a
+
+	column step_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a6744cf8-1f93-551f-b3ed-2e3a4682816b
+		summarizeBy: none
+		sourceColumn: step_order
+
+	column step
+		dataType: string
+		lineageTag: 46676399-b0fa-53e5-bf0e-69a47025b0fb
+		summarizeBy: none
+		sourceColumn: step
+		sortByColumn: step_order
+
+	column users
+		dataType: int64
+		formatString: #,0
+		lineageTag: aab89b57-8ca6-5850-80be-9aafb23e10ae
+		summarizeBy: none
+		sourceColumn: users
+
+	column conversion_from_start
+		dataType: double
+		formatString: 0%
+		lineageTag: ad264a85-714e-573c-bc0c-9eef365509c4
+		summarizeBy: none
+		sourceColumn: conversion_from_start
+
+	column conversion_from_previous
+		dataType: double
+		formatString: 0%
+		lineageTag: fd5ed32a-0d17-5de7-8bd5-467b318fe19f
+		summarizeBy: none
+		sourceColumn: conversion_from_previous
+
+	column users_lost
+		dataType: int64
+		formatString: #,0
+		lineageTag: d923d4b5-5a43-5d23-8af8-ca9b9bf67038
+		summarizeBy: none
+		sourceColumn: users_lost
+
+	column median_hours_from_previous
+		dataType: double
+		formatString: #,0
+		lineageTag: 2288b73a-39e8-5451-9689-3f4480fbd591
+		summarizeBy: none
+		sourceColumn: median_hours_from_previous
+
+	partition 'Reach Funnel' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\reach_funnel.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Selected = Table.SelectColumns(Promoted, {"step_order", "step", "users", "conversion_from_start", "conversion_from_previous", "users_lost", "median_hours_from_previous"}),
+					Typed = Table.TransformColumnTypes(Selected, {{"step_order", Int64.Type}, {"step", type text}, {"users", Int64.Type}, {"conversion_from_start", type number}, {"conversion_from_previous", type number}, {"users_lost", Int64.Type}, {"median_hours_from_previous", type number}}, "en-US")
+				in
+					Typed
